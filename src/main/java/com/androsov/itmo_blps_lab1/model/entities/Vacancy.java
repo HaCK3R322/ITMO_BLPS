@@ -1,4 +1,4 @@
-package com.androsov.itmo_blps_lab1.entities;
+package com.androsov.itmo_blps_lab1.model.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,20 +10,20 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "resume_vacancy_link")
-public class ResumeVacancyLink {
+@Table(name = "vacancy")
+public class Vacancy {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToOne
-    private Resume resume;
+    @Column(name = "name")
+    private String name;
 
-    @OneToOne
-    private Vacancy vacancy;
+    @Column(name = "description")
+    private String description;
 
-    public ResumeVacancyLink() {
+    public Vacancy() {
 
     }
 }

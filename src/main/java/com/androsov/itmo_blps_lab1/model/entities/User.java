@@ -1,12 +1,11 @@
-package com.androsov.itmo_blps_lab1.entities;
+package com.androsov.itmo_blps_lab1.model.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 
 //TODO: make all values NotNull (create validators)
@@ -23,6 +22,7 @@ public class User {
     private Integer id;
 
     @Column(name = "username", unique = true)
+    @Size(min = 3, max = 32, message = "Username should be in range of 3-32 symbols")
     private String username;
 
     @Column(name = "password")
