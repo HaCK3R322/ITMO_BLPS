@@ -1,8 +1,8 @@
 package com.androsov.itmo_blps_lab1.configuration;
 
 
-import com.androsov.itmo_blps_lab1.controllers.dto.converters.ResumeDtoToResumeConverter;
-import com.androsov.itmo_blps_lab1.controllers.dto.converters.ResumeToResumeDtoConverter;
+import com.androsov.itmo_blps_lab1.dto.converters.ResumeDtoToResumeConverter;
+import com.androsov.itmo_blps_lab1.dto.converters.ResumeToResumeDtoConverter;
 import com.androsov.itmo_blps_lab1.model.entities.User;
 import com.androsov.itmo_blps_lab1.repositories.UserRepository;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.androsov.itmo_blps_lab1.controllers.dto;
+package com.androsov.itmo_blps_lab1.dto;
 
 import com.androsov.itmo_blps_lab1.model.entities.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
