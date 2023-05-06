@@ -1,13 +1,10 @@
 package com.androsov.itmo_blps_lab1.dto;
 
-import com.androsov.itmo_blps_lab1.model.entities.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Getter
@@ -34,7 +31,6 @@ public class ResumeDto {
 
     @Min(value = 18, message = "Age should not be less that 18")
     @Max(value = 150, message = "Age should not be grater that 150")
-    @NotBlank(message = "Age required")
     @NotNull(message = "Age required")
     private Integer age;
 
@@ -42,4 +38,6 @@ public class ResumeDto {
     private String studyingDescription;
     @Size(max = 2000, message = "Jobs description should not be longer that 2000 symbols")
     private String jobsDescription;
+
+    private Long imageId;
 }

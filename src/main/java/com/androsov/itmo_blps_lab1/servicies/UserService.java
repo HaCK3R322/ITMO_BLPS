@@ -1,6 +1,6 @@
 package com.androsov.itmo_blps_lab1.servicies;
 
-import com.androsov.itmo_blps_lab1.model.entities.User;
+import com.androsov.itmo_blps_lab1.entities.User;
 import com.androsov.itmo_blps_lab1.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -26,6 +26,10 @@ public class UserService {
     public User save(User user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return userRepository.save(user);
+    }
+
+    public User getByUsername(String username) {
+        return userRepository.getByUsername(username);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.androsov.itmo_blps_lab1.servicies;
 
-import com.androsov.itmo_blps_lab1.model.entities.Resume;
-import com.androsov.itmo_blps_lab1.model.entities.User;
+import com.androsov.itmo_blps_lab1.entities.Resume;
+import com.androsov.itmo_blps_lab1.entities.User;
 import com.androsov.itmo_blps_lab1.repositories.ResumeRepository;
 import com.androsov.itmo_blps_lab1.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ public class ResumeService {
     ResumeRepository resumeRepository;
     UserRepository userRepository;
 
-    public Resume createResume(Resume resume) {
+    public Resume saveResume(Resume resume) {
         return resumeRepository.save(resume);
     }
 
@@ -30,5 +30,6 @@ public class ResumeService {
 
         return resumeRepository.getAllByUser(user);
     }
+
 
 }

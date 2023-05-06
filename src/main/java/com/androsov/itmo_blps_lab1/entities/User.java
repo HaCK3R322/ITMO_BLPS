@@ -1,4 +1,4 @@
-package com.androsov.itmo_blps_lab1.model.entities;
+package com.androsov.itmo_blps_lab1.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.androsov.itmo_blps_lab1.model.entities;
+package com.androsov.itmo_blps_lab1.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,5 +25,10 @@ public class ResumeVacancyLink {
 
     public ResumeVacancyLink() {
 
+    }
+
+    public ResumeVacancyLink(Vacancy vacancy, Resume resume) {
+        this.resume = resume;
+        this.vacancy = vacancy;
     }
 }

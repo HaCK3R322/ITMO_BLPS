@@ -1,6 +1,6 @@
 package com.androsov.itmo_blps_lab1.servicies;
 
-import com.androsov.itmo_blps_lab1.model.entities.User;
+import com.androsov.itmo_blps_lab1.entities.User;
 import com.androsov.itmo_blps_lab1.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,26 +1,34 @@
 package com.androsov.itmo_blps_lab1.dto.converters;
 
 import com.androsov.itmo_blps_lab1.dto.ResumeDto;
-import com.androsov.itmo_blps_lab1.model.entities.Resume;
+import com.androsov.itmo_blps_lab1.entities.Image;
+import com.androsov.itmo_blps_lab1.entities.Resume;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
+@Component
 public class ResumeToResumeDtoConverter implements Converter<Resume, ResumeDto> {
     @Override
     public ResumeDto convert(Resume resume) {
-        return new ResumeDto(resume.getId(),
+        Image image = resume.getImage();
+        Long imageId = null;
+        if (image != null) imageId = image.getId();
+
+        return new ResumeDto(
+                resume.getId(),
                 resume.getUser().getUsername(),
                 resume.getSpecialization(),
                 resume.getName(),
                 resume.getSurname(),
                 resume.getAge(),
                 resume.getStudyingDescription(),
-                resume.getJobsDescription());
+                resume.getJobsDescription(),
+                imageId);
     }
 
     public List<ResumeDto> convert(List<Resume> resumes) {

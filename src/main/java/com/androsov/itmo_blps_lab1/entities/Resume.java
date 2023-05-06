@@ -1,4 +1,4 @@
-package com.androsov.itmo_blps_lab1.model.entities;
+package com.androsov.itmo_blps_lab1.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 public class Resume {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
 
     @OneToOne
@@ -42,8 +42,11 @@ public class Resume {
     @Size(max = 2000, message = "Studying description should not be longer that 2000 symbols")
     private String studyingDescription;
     @Size(max = 2000, message = "Jobs description should not be longer that 2000 symbols")
-
     private String jobsDescription;
+
+    @OneToOne
+    @JoinColumn(name = "image_id")
+    private Image image;
 
     public Resume() {
 
