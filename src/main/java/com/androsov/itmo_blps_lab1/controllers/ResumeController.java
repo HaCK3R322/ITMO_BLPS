@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
@@ -30,8 +31,8 @@ class ResumeControllerAdvice {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
-    @ExceptionHandler(ChangeSetPersister.NotFoundException.class)
-    public ResponseEntity<String> handleNotFoundException(ChangeSetPersister.NotFoundException ex) {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
@@ -48,7 +49,12 @@ public class ResumeController {
     ResumeToResumeDtoConverter resumeToResumeDtoConverter;
 
     @PostMapping("/resume/create")
-    public ResponseEntity<ResumeDto> create(@Valid @RequestBody ResumeDto resumeDto, Principal principal) {
+    public ResponseEntity<?> create(@Valid @RequestBody ResumeDto resumeDto, Principal principal) {
+        if (resumeDto.getUsername() == null || !resumeDto.getUsername().equals(principal.getName())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Current user has no access to create resume for user " + resumeDto.getUsername());
+        }
+
         Resume resume = resumeDtoToResumeConverter.convert(resumeDto);
 
         Resume savedResume = resumeService.saveResume(resume);
@@ -67,7 +73,7 @@ public class ResumeController {
 
     //TODO: move logic to ResumeService
     @PatchMapping("/resume/{resumeId}/attach/image/{imageId}")
-    public ResponseEntity<?> attachImage(@PathVariable Long resumeId, @PathVariable Long imageId) throws ChangeSetPersister.NotFoundException {
+    public ResponseEntity<?> attachImage(@PathVariable Long resumeId, @PathVariable Long imageId) throws EntityNotFoundException {
         if (!resumeService.existsById(resumeId) || !imageService.existsById(imageId)) {
             return ResponseEntity.badRequest().body("Invalid resume or image ID (is null)");
         }

@@ -32,8 +32,9 @@ public class VacancyDtoToVacancyConverter implements Converter<VacancyDto, Vacan
         vacancy.setResponsibilities(vacancyDto.getResponsibilities());
         vacancy.setRequirements(vacancyDto.getRequirements());
         vacancy.setConditions(vacancyDto.getConditions());
-        vacancy.setMinimumPayment(vacancyDto.getMinimumPayment());
-        vacancy.setMaximumPayment(vacancyDto.getMaximumPayment());
+        vacancy.setSalaryFrom(vacancyDto.getSalaryFrom());
+        vacancy.setSalaryTo(vacancyDto.getSalaryTo());
+        vacancy.setCity(vacancyDto.getCity());
         return vacancy;
     }
 }

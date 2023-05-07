@@ -14,6 +14,7 @@ public class VacancyDto {
 
     @NotBlank(message = "Name cannot be blank")
     @Size(max = 255, message = "Name cannot exceed {max} characters")
+    @NotNull
     private String name;
 
     @NotNull(message = "Username cannot be null")
@@ -23,6 +24,11 @@ public class VacancyDto {
     @NotBlank(message = "Description cannot be blank")
     @Size(max = 2000, message = "Description cannot exceed {max} characters")
     private String description;
+
+    @NotBlank(message = "City cannot be blank")
+    @NotNull
+    @Size(max = 100, message = "City cannot exceed {max} characters")
+    private String city;
 
     @NotBlank(message = "Address cannot be blank")
     @Size(max = 255, message = "Address cannot exceed {max} characters")
@@ -44,12 +50,12 @@ public class VacancyDto {
     @Size(max = 2000, message = "Conditions cannot exceed {max} characters")
     private String conditions;
 
-    @NotNull(message = "Minimum payment cannot be null")
-    @PositiveOrZero(message = "Minimum payment cannot be negative")
-    private Integer minimumPayment;
+    @NotNull(message = "Minimum salary cannot be null")
+    @PositiveOrZero(message = "Minimum salary cannot be negative")
+    private Integer salaryFrom;
 
-    @NotNull(message = "Maximum payment cannot be null")
-    @PositiveOrZero(message = "Maximum payment cannot be negative")
-    private Integer maximumPayment;
+    @NotNull(message = "Maximum salary cannot be null")
+    @PositiveOrZero(message = "Maximum salary cannot be negative")
+    private Integer salaryTo;
 }
 

@@ -5,9 +5,9 @@ import com.androsov.itmo_blps_lab1.entities.User;
 import com.androsov.itmo_blps_lab1.repositories.ResumeRepository;
 import com.androsov.itmo_blps_lab1.repositories.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
 import java.util.List;
 
@@ -32,8 +32,8 @@ public class ResumeService {
         return resumeRepository.getAllByUser(user);
     }
 
-    public Resume getById(Long id) throws ChangeSetPersister.NotFoundException {
-        return resumeRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
+    public Resume getById(Long id) throws EntityNotFoundException {
+        return resumeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     public boolean exists(Resume resume) {

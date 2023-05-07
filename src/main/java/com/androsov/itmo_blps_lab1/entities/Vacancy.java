@@ -20,11 +20,12 @@ public class Vacancy {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-
     @Column(name = "name")
     private String name;
     @Column(name = "description")
     private String description;
+    @Column(name = "city")
+    private String city;
     @Column(name = "address")
     private String address;
     @Column(name = "work_experience")
@@ -35,10 +36,10 @@ public class Vacancy {
     private String requirements;
     @Column(name = "conditions")
     private String conditions;
-    @Column(name = "minimum_payment")
-    private Integer minimumPayment;
-    @Column(name = "maximum_payment")
-    private Integer maximumPayment;
+    @Column(name = "salary_from")
+    private Integer salaryFrom;
+    @Column(name = "salary_to")
+    private Integer salaryTo;
 
     public Vacancy() {
 

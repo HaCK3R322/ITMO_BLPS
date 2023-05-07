@@ -1,23 +1,23 @@
 package com.androsov.itmo_blps_lab1.controllers;
 
 import com.androsov.itmo_blps_lab1.dto.VacancyDto;
+import com.androsov.itmo_blps_lab1.dto.VacancySearchParams;
 import com.androsov.itmo_blps_lab1.dto.converters.VacancyDtoToVacancyConverter;
 import com.androsov.itmo_blps_lab1.dto.converters.VacancyToVacancyDtoConverter;
 import com.androsov.itmo_blps_lab1.entities.Resume;
 import com.androsov.itmo_blps_lab1.entities.ResumeVacancyLink;
-import com.androsov.itmo_blps_lab1.repositories.ResumeRepository;
-import com.androsov.itmo_blps_lab1.repositories.ResumeVacancyLinkRepository;
 import com.androsov.itmo_blps_lab1.entities.Vacancy;
 import com.androsov.itmo_blps_lab1.servicies.ResumeService;
 import com.androsov.itmo_blps_lab1.servicies.ResumeVacancyLinkService;
 import com.androsov.itmo_blps_lab1.servicies.VacancyService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
+import java.util.List;
 
 
 @ControllerAdvice
@@ -27,8 +27,8 @@ class VacancyControllerAdvice {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
-    @ExceptionHandler(ChangeSetPersister.NotFoundException.class)
-    public ResponseEntity<String> handleNotFoundException(ChangeSetPersister.NotFoundException ex) {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
@@ -55,29 +55,8 @@ public class VacancyController {
         return new ResponseEntity<>(vacancyToVacancyDtoConverter.convert(savedVacancy), HttpStatus.CREATED);
     }
 
-//    @GetMapping("/vacancy/search")
-//    public ResponseEntity<List<Vacancy>> search(@RequestParam String searchQuery) {
-//        List<String> keywords = Arrays.asList(searchQuery.split("\\s+"));
-//        List<Vacancy> vacancies = vacancyRepository.findAll();
-//        List<Vacancy> matchingVacancies = new ArrayList<>();
-//        for (Vacancy vacancy : vacancies) {
-//            String name = vacancy.getName().toLowerCase();
-//            boolean containsAllKeywords = true;
-//            for (String keyword : keywords) {
-//                if (!name.contains(keyword.toLowerCase())) {
-//                    containsAllKeywords = false;
-//                    break;
-//                }
-//            }
-//            if (containsAllKeywords) {
-//                matchingVacancies.add(vacancy);
-//            }
-//        }
-//        return ResponseEntity.ok(matchingVacancies);
-//    }
-
     @PostMapping("/vacancy/{vacancyId}/attach/resume/{resumeId}")
-    public ResponseEntity<?> addResume(@PathVariable Long vacancyId, @PathVariable Long resumeId, Principal principal) throws ChangeSetPersister.NotFoundException {
+    public ResponseEntity<?> addResume(@PathVariable Long vacancyId, @PathVariable Long resumeId, Principal principal) throws EntityNotFoundException {
         if (!vacancyService.existsById(vacancyId) || !resumeService.existsById(resumeId)) {
             return ResponseEntity.badRequest().body("Invalid vacancy or resume ID (is null)");
         }
@@ -93,5 +72,11 @@ public class VacancyController {
         return ResponseEntity.ok().body("Link created");
     }
 
+    @GetMapping("/vacancy/search")
+    public ResponseEntity<List<VacancyDto>> search(@RequestBody VacancySearchParams params) {
+        List<Vacancy> vacancies = vacancyService.searchByParams(params);
+        List<VacancyDto> dtos = vacancyToVacancyDtoConverter.convert(vacancies);
+        return new ResponseEntity<>(dtos, HttpStatus.FOUND);
+    }
 
 }
