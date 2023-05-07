@@ -29,7 +29,7 @@ public class UserDetailsService implements org.springframework.security.core.use
                 new ArrayList<AlwaysUser>()); // new ArrayList<AlwaysUser>() must be filled with roles
     }
 
-    //TODO: This was made only for app work, need to be removed
+
     private static class AlwaysUser implements GrantedAuthority {
         @Override
         public String getAuthority() {

@@ -11,8 +11,11 @@ import com.androsov.itmo_blps_lab1.servicies.ResumeService;
 import com.androsov.itmo_blps_lab1.servicies.ResumeVacancyLinkService;
 import com.androsov.itmo_blps_lab1.servicies.VacancyService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -31,6 +34,7 @@ class VacancyControllerAdvice {
     public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
+
 }
 
 
@@ -73,8 +77,11 @@ public class VacancyController {
     }
 
     @GetMapping("/vacancy/search")
-    public ResponseEntity<List<VacancyDto>> search(@RequestBody VacancySearchParams params) {
-        List<Vacancy> vacancies = vacancyService.searchByParams(params);
+    public ResponseEntity<List<VacancyDto>> search(@RequestBody VacancySearchParams params, @RequestParam Integer page) {
+        Integer pageNumber = page;
+        Integer pageSize = 2; //TODO: может быть поменять это, там в конфиг какой пустить
+
+        List<Vacancy> vacancies = vacancyService.searchByParams(params, PageRequest.of(pageNumber, pageSize));
         List<VacancyDto> dtos = vacancyToVacancyDtoConverter.convert(vacancies);
         return new ResponseEntity<>(dtos, HttpStatus.FOUND);
     }

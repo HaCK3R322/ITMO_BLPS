@@ -7,6 +7,7 @@ import com.androsov.itmo_blps_lab1.entities.Vacancy;
 import com.androsov.itmo_blps_lab1.repositories.ResumeVacancyLinkRepository;
 import com.androsov.itmo_blps_lab1.repositories.VacancyRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -46,7 +47,7 @@ public class VacancyService {
         return vacancyRepository.existsById(id);
     }
 
-    public List<Vacancy> searchByParams(VacancySearchParams params) {
+    public List<Vacancy> searchByParams(VacancySearchParams params, Pageable pageable) {
         // create a criteria builder to construct the query
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
@@ -89,7 +90,11 @@ public class VacancyService {
         query.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
 
         // execute the query and return the results
-        List<Vacancy> results = entityManager.createQuery(query).getResultList();
+        List<Vacancy> results = entityManager
+                .createQuery(query)
+                .setFirstResult(pageable.getPageNumber() * pageable.getPageSize()) // offset
+                .setMaxResults(pageable.getPageSize())
+                .getResultList();
         return results;
     }
 

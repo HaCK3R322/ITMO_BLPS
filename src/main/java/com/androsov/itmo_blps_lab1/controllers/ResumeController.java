@@ -11,10 +11,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
@@ -35,6 +37,11 @@ class ResumeControllerAdvice {
     public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        return ResponseEntity.badRequest().body("JSON Parse error.");
+    }
 }
 
 @RestController
@@ -48,8 +55,15 @@ public class ResumeController {
     ResumeDtoToResumeConverter resumeDtoToResumeConverter;
     ResumeToResumeDtoConverter resumeToResumeDtoConverter;
 
+    //TODO: добавить отсечение лишних параметров в других контроллерах
     @PostMapping("/resume/create")
-    public ResponseEntity<?> create(@Valid @RequestBody ResumeDto resumeDto, Principal principal) {
+    public ResponseEntity<?> create(@Valid @RequestBody ResumeDto resumeDto,
+                                    Principal principal,
+                                    HttpServletRequest request) {
+        if (!request.getParameterMap().isEmpty()) {
+            return ResponseEntity.badRequest().body("GET parameters are not allowed in this request");
+        }
+
         if (resumeDto.getUsername() == null || !resumeDto.getUsername().equals(principal.getName())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body("Current user has no access to create resume for user " + resumeDto.getUsername());
@@ -71,7 +85,6 @@ public class ResumeController {
         return new ResponseEntity<>(resumeDtos, HttpStatus.OK);
     }
 
-    //TODO: move logic to ResumeService
     @PatchMapping("/resume/{resumeId}/attach/image/{imageId}")
     public ResponseEntity<?> attachImage(@PathVariable Long resumeId, @PathVariable Long imageId) throws EntityNotFoundException {
         if (!resumeService.existsById(resumeId) || !imageService.existsById(imageId)) {
