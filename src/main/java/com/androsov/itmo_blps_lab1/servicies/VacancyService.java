@@ -6,6 +6,7 @@ import com.androsov.itmo_blps_lab1.entities.Vacancy;
 import com.androsov.itmo_blps_lab1.repositories.ResumeVacancyLinkRepository;
 import com.androsov.itmo_blps_lab1.repositories.VacancyRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,7 +23,20 @@ public class VacancyService {
         return vacancyRepository.save(vacancy);
     }
 
+    public Vacancy getById(Long id) throws ChangeSetPersister.NotFoundException {
+        return vacancyRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
+    }
+
     public void attachResume(Vacancy vacancy, Resume resume) {
         resumeVacancyLinkRepository.save(new ResumeVacancyLink(vacancy, resume));
+    }
+
+    public boolean exists(Vacancy vacancy) {
+        if(vacancy == null || vacancy.getId() == null) return false;
+
+        return vacancyRepository.existsById(vacancy.getId());
+    }
+    public boolean existsById(Long id) {
+        return vacancyRepository.existsById(id);
     }
 }

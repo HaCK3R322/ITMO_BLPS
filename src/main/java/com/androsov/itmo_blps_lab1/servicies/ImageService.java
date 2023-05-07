@@ -20,4 +20,8 @@ public class ImageService {
     public Image createFromDataAndUser(byte[] data, User user) {
         return imageRepository.save(new Image(null, data, user));
     }
+
+    public boolean existsById(Long id) {
+        return imageRepository.existsById(id);
+    }
 }

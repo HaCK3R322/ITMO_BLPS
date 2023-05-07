@@ -9,4 +9,5 @@ public interface VacancyRepository extends JpaRepository<Vacancy, Long> {
     boolean existsByUserAndName(User user, String name);
 
     Vacancy findByUserAndName(User user, String name);
+
 }

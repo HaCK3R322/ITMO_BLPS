@@ -51,7 +51,5 @@ public class VacancyDto {
     @NotNull(message = "Maximum payment cannot be null")
     @PositiveOrZero(message = "Maximum payment cannot be negative")
     private Integer maximumPayment;
-
-    private String imageName;
 }
 

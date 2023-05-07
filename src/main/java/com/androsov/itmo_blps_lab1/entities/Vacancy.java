@@ -40,10 +40,6 @@ public class Vacancy {
     @Column(name = "maximum_payment")
     private Integer maximumPayment;
 
-    @Lob
-    @Column(name = "image")
-    private byte[] image;
-
     public Vacancy() {
 
     }
