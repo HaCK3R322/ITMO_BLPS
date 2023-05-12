@@ -60,6 +60,8 @@ public class ResumeController {
     public ResponseEntity<?> create(@Valid @RequestBody ResumeDto resumeDto,
                                     Principal principal,
                                     HttpServletRequest request) {
+
+
         if (!request.getParameterMap().isEmpty()) {
             return ResponseEntity.badRequest().body("GET parameters are not allowed in this request");
         }

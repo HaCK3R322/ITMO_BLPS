@@ -33,7 +33,7 @@ public class ImageController {
             Image savedImage = imageService.createFromDataAndUser(imageData, user);
 
             // Return a response entity with the saved Image object and appropriate headers
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedImage.getId());
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedImage);
         } catch (Exception e) {
             // Handle exceptions and return a response entity with an error message and appropriate headers
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload image");
