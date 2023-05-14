@@ -1,5 +1,6 @@
 package com.androsov.itmo_blps_lab1.controllers;
 
+import com.androsov.itmo_blps_lab1.annotations.FailOnGetParams;
 import com.androsov.itmo_blps_lab1.dto.ResumeDto;
 import com.androsov.itmo_blps_lab1.dto.converters.ResumeDtoToResumeConverter;
 import com.androsov.itmo_blps_lab1.dto.converters.ResumeToResumeDtoConverter;
@@ -57,14 +58,10 @@ public class ResumeController {
 
     //TODO: добавить отсечение лишних параметров в других контроллерах
     @PostMapping("/resume/create")
+    @FailOnGetParams
     public ResponseEntity<?> create(@Valid @RequestBody ResumeDto resumeDto,
                                     Principal principal,
                                     HttpServletRequest request) {
-
-
-        if (!request.getParameterMap().isEmpty()) {
-            return ResponseEntity.badRequest().body("GET parameters are not allowed in this request");
-        }
 
         if (resumeDto.getUsername() == null || !resumeDto.getUsername().equals(principal.getName())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
