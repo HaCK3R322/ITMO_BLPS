@@ -11,9 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Size;
 import java.io.IOException;
 import java.security.Principal;
 
@@ -26,9 +28,22 @@ public class ImageController {
 
     @PostMapping(path = "/image/create")
     @FailOnGetParams
-    public ResponseEntity<?> createImage(@RequestParam("file") MultipartFile file, Principal principal, HttpServletRequest request) {
+    public ResponseEntity<?> createImage(@RequestParam("file") MultipartFile file,
+                                         Principal principal,
+                                         HttpServletRequest request) {
         User user = userService.getByUsername(principal.getName());
         try {
+            String contentType = file.getContentType();
+            if (contentType == null || (!contentType.equals("image/png") && !contentType.equals("image/jpeg"))) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid file type. Only PNG and JPG files are allowed.");
+            }
+
+            // Check file extension
+            String originalFilename = file.getOriginalFilename();
+            if (originalFilename == null || (!originalFilename.toLowerCase().endsWith(".png") && !originalFilename.toLowerCase().endsWith(".jpg"))) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid file extension. Only PNG and JPG files are allowed.");
+            }
+
             // Get the bytes of the uploaded file
             byte[] imageData = file.getBytes();
 
@@ -37,9 +52,8 @@ public class ImageController {
 
             // Return a response entity with the saved Image object and appropriate headers
             return ResponseEntity.status(HttpStatus.CREATED).body(savedImage);
-        } catch (Exception e) {
-            // Handle exceptions and return a response entity with an error message and appropriate headers
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload image");
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Sorry! You fucked up somehow (but file seems to be png or jpg for sure!)");
         }
     }
 
