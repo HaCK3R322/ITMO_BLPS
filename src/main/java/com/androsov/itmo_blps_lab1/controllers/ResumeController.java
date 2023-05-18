@@ -20,6 +20,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.HashSet;
 import java.util.List;
 
 @ControllerAdvice
@@ -56,13 +57,11 @@ public class ResumeController {
     ResumeDtoToResumeConverter resumeDtoToResumeConverter;
     ResumeToResumeDtoConverter resumeToResumeDtoConverter;
 
-    //TODO: добавить отсечение лишних параметров в других контроллерах
     @PostMapping("/resume/create")
     @FailOnGetParams
     public ResponseEntity<?> create(@Valid @RequestBody ResumeDto resumeDto,
-                                    Principal principal,
-                                    HttpServletRequest request) {
-
+                                    Principal principal
+                                    ) {
         if (resumeDto.getUsername() == null || !resumeDto.getUsername().equals(principal.getName())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body("Current user has no access to create resume for user " + resumeDto.getUsername());
@@ -76,7 +75,8 @@ public class ResumeController {
     }
 
     @GetMapping("/resume/get/all")
-    public ResponseEntity<List<ResumeDto>> getAll(Principal principal) {
+    @FailOnGetParams
+    public ResponseEntity<List<ResumeDto>> getAll(Principal principal, HttpServletRequest request) {
         List<Resume> resumes = resumeService.getAllForCurrentPrincipal(principal);
 
         List<ResumeDto> resumeDtos = resumeToResumeDtoConverter.convert(resumes);
@@ -85,7 +85,8 @@ public class ResumeController {
     }
 
     @PatchMapping("/resume/{resumeId}/attach/image/{imageId}")
-    public ResponseEntity<?> attachImage(@PathVariable Long resumeId, @PathVariable Long imageId) throws EntityNotFoundException {
+    @FailOnGetParams
+    public ResponseEntity<?> attachImage(@PathVariable Long resumeId, @PathVariable Long imageId, HttpServletRequest request) throws EntityNotFoundException {
         if (!resumeService.existsById(resumeId) || !imageService.existsById(imageId)) {
             return ResponseEntity.badRequest().body("Invalid resume or image ID (is null)");
         }

@@ -1,5 +1,6 @@
 package com.androsov.itmo_blps_lab1.controllers;
 
+import com.androsov.itmo_blps_lab1.annotations.FailOnGetParams;
 import com.androsov.itmo_blps_lab1.dto.VacancyDto;
 import com.androsov.itmo_blps_lab1.dto.VacancySearchParams;
 import com.androsov.itmo_blps_lab1.dto.converters.VacancyDtoToVacancyConverter;
@@ -19,6 +20,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
 
@@ -51,7 +53,8 @@ public class VacancyController {
     VacancyToVacancyDtoConverter vacancyToVacancyDtoConverter;
 
     @PostMapping(path = "/vacancy/create")
-    public ResponseEntity<VacancyDto> createVacancy(@RequestBody VacancyDto vacancyDto) {
+    @FailOnGetParams
+    public ResponseEntity<VacancyDto> createVacancy(@RequestBody VacancyDto vacancyDto, HttpServletRequest request) {
         Vacancy vacancy = vacancyDtoToVacancyConverter.convert(vacancyDto);
 
         Vacancy savedVacancy = vacancyService.createVacancy(vacancy);
@@ -60,7 +63,8 @@ public class VacancyController {
     }
 
     @PostMapping("/vacancy/{vacancyId}/attach/resume/{resumeId}")
-    public ResponseEntity<?> addResume(@PathVariable Long vacancyId, @PathVariable Long resumeId, Principal principal) throws EntityNotFoundException {
+    @FailOnGetParams
+    public ResponseEntity<?> addResume(@PathVariable Long vacancyId, @PathVariable Long resumeId, Principal principal, HttpServletRequest request) throws EntityNotFoundException {
         if (!vacancyService.existsById(vacancyId) || !resumeService.existsById(resumeId)) {
             return ResponseEntity.badRequest().body("Invalid vacancy or resume ID (is null)");
         }

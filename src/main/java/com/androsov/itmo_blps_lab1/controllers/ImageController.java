@@ -1,5 +1,6 @@
 package com.androsov.itmo_blps_lab1.controllers;
 
+import com.androsov.itmo_blps_lab1.annotations.FailOnGetParams;
 import com.androsov.itmo_blps_lab1.entities.Image;
 import com.androsov.itmo_blps_lab1.entities.User;
 import com.androsov.itmo_blps_lab1.repositories.UserRepository;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.Principal;
 
@@ -23,7 +25,8 @@ public class ImageController {
     UserService userService;
 
     @PostMapping(path = "/image/create")
-    public ResponseEntity<?> createImage(@RequestParam("file") MultipartFile file, Principal principal) {
+    @FailOnGetParams
+    public ResponseEntity<?> createImage(@RequestParam("file") MultipartFile file, Principal principal, HttpServletRequest request) {
         User user = userService.getByUsername(principal.getName());
         try {
             // Get the bytes of the uploaded file

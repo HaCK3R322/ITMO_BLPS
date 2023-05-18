@@ -4,14 +4,12 @@ import com.androsov.itmo_blps_lab1.dto.ResumeDto;
 import com.androsov.itmo_blps_lab1.entities.Image;
 import com.androsov.itmo_blps_lab1.entities.Resume;
 import com.androsov.itmo_blps_lab1.entities.User;
-import com.androsov.itmo_blps_lab1.repositories.ImageRepository;
 import com.androsov.itmo_blps_lab1.repositories.ResumeRepository;
 import com.androsov.itmo_blps_lab1.repositories.UserRepository;
 import com.androsov.itmo_blps_lab1.servicies.ImageService;
 import lombok.AllArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import java.util.List;
 
