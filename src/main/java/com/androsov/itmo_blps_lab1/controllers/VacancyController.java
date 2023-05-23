@@ -12,6 +12,9 @@ import com.androsov.itmo_blps_lab1.servicies.ResumeService;
 import com.androsov.itmo_blps_lab1.servicies.ResumeVacancyLinkService;
 import com.androsov.itmo_blps_lab1.servicies.VacancyService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -23,21 +26,6 @@ import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
-
-
-@ControllerAdvice
-class VacancyControllerAdvice {
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage());
-    }
-
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage());
-    }
-
-}
 
 
 @RestController
@@ -80,14 +68,14 @@ public class VacancyController {
         return ResponseEntity.ok().body("Link created");
     }
 
+
     @GetMapping("/vacancy/search")
     public ResponseEntity<List<VacancyDto>> search(@RequestBody VacancySearchParams params, @RequestParam Integer page) {
-        Integer pageNumber = page;
-        Integer pageSize = 2; //TODO: может быть поменять это, там в конфиг какой пустить
+        final int pagesize = 2; // hardcoded this xd
 
-        List<Vacancy> vacancies = vacancyService.searchByParams(params, PageRequest.of(pageNumber, pageSize));
+        List<Vacancy> vacancies = vacancyService.searchByParams(params, PageRequest.of(page, pagesize));
         List<VacancyDto> dtos = vacancyToVacancyDtoConverter.convert(vacancies);
-        return new ResponseEntity<>(dtos, HttpStatus.FOUND);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
 }

@@ -7,14 +7,16 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 @AllArgsConstructor
 public class ImageService {
     private ImageRepository imageRepository;
 
-    public Image getImageById(Long id) throws IllegalArgumentException {
+    public Image getImageById(Long id) throws EntityNotFoundException {
 
-        return imageRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        return imageRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     public Image createFromDataAndUser(byte[] data, User user) {

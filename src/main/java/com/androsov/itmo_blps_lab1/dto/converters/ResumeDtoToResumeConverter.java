@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Component
@@ -21,7 +22,7 @@ public class ResumeDtoToResumeConverter implements Converter<ResumeDto, Resume> 
     ResumeRepository resumeRepository;
 
     @Override
-    public Resume convert(ResumeDto resumeDto) throws IllegalArgumentException {
+    public Resume convert(ResumeDto resumeDto) throws EntityNotFoundException {
         User user = userRepository.findByUsername(resumeDto.getUsername());
 
         Image image = null;
@@ -30,7 +31,7 @@ public class ResumeDtoToResumeConverter implements Converter<ResumeDto, Resume> 
         }
 
         if (resumeDto.getId() != null) {
-            return resumeRepository.findById(resumeDto.getId()).orElseThrow(IllegalArgumentException::new);
+            return resumeRepository.findById(resumeDto.getId()).orElseThrow(EntityNotFoundException::new);
         }
 
         return new Resume(null,
