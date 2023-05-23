@@ -68,6 +68,6 @@ public class ImageController {
     public ResponseEntity<Image> getImage(@PathVariable Long id) {
         Image image = imageService.getImageById(id);
 
-        return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(image);
+        return ResponseEntity.ok().body(image);
     }
 }
