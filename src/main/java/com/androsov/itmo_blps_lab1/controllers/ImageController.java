@@ -7,6 +7,7 @@ import com.androsov.itmo_blps_lab1.repositories.UserRepository;
 import com.androsov.itmo_blps_lab1.servicies.ImageService;
 import com.androsov.itmo_blps_lab1.servicies.UserService;
 import lombok.AllArgsConstructor;
+import org.apache.tika.Tika;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,9 +34,15 @@ public class ImageController {
                                          HttpServletRequest request) {
         User user = userService.getByUsername(principal.getName());
         try {
-            String contentType = file.getContentType();
-            if (contentType == null || (!contentType.equals("image/png") && !contentType.equals("image/jpeg"))) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid file type. Only PNG and JPG files are allowed.");
+            Tika tika = new Tika();
+            String contentType = tika.detect(file.getBytes());
+            if (contentType == null || (
+                    !contentType.equals("image/png")
+                            && !contentType.equals("image/jpeg")
+                            && !contentType.equals("image/webp")
+                    )
+            ) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid file type \"" + contentType + "\". Only PNG and JPG files are allowed.");
             }
 
             // Check file extension
