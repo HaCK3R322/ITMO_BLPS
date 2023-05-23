@@ -26,6 +26,6 @@ public class EntitiesExceptionsAdvices {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
-        return ResponseEntity.badRequest().body("JSON Parse error.");
+        return ResponseEntity.badRequest().body("JSON Parse error. Maybe unexpected fields?");
     }
 }
