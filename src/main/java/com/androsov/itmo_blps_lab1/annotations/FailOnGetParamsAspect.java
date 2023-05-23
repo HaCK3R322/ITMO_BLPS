@@ -1,19 +1,12 @@
 package com.androsov.itmo_blps_lab1.annotations;
 
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Method;
-import java.util.Arrays;
 
 @Aspect
 @Component
@@ -36,6 +29,7 @@ public class FailOnGetParamsAspect {
         if (!request.getParameterMap().isEmpty()) {
             return ResponseEntity.badRequest().body("GET parameters are not allowed in this request.");
         }
+
         return joinPoint.proceed();
     }
 }
