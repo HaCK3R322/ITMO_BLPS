@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.androsov</groupId>
-    <artifactId>ITMO_BLPS_lab1</artifactId>
+    <artifactId>ITMO_BLPS</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ITMO_BLPS_lab1</name>
     <description>ITMO_BLPS_lab1</description>
