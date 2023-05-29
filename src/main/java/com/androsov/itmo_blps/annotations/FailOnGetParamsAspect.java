@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 @Aspect
 @Component
 public class FailOnGetParamsAspect {
-
-
     @Around("@annotation(FailOnGetParams)")
     public Object checkForGetParams(ProceedingJoinPoint joinPoint) throws Throwable {
         HttpServletRequest request = null;
