@@ -19,11 +19,11 @@ import java.security.Principal;
 @RestController
 @CrossOrigin
 @AllArgsConstructor
-public class ImageController {
+public class  ImageController {
     ImageService imageService;
     UserService userService;
 
-    @PostMapping(path = "/image/create")
+    @PostMapping(path = "/image")
     @FailOnGetParams
     public ResponseEntity<?> createImage(@RequestParam("file") MultipartFile file,
                                          Principal principal,
@@ -60,7 +60,7 @@ public class ImageController {
         }
     }
 
-    @GetMapping(path = "/image/get/{id}")
+    @GetMapping(path = "/image/{id}")
     public ResponseEntity<Image> getImage(@PathVariable Long id) {
         Image image = imageService.getImageById(id);
 

@@ -35,7 +35,7 @@ public class VacancyController {
     VacancyDtoToVacancyConverter vacancyDtoToVacancyConverter;
     VacancyToVacancyDtoConverter vacancyToVacancyDtoConverter;
 
-    @PostMapping(path = "/vacancy/create")
+    @PostMapping(path = "/vacancy")
     @FailOnGetParams
     public ResponseEntity<VacancyDto> createVacancy(@RequestBody VacancyDto vacancyDto, HttpServletRequest request) {
         Vacancy vacancy = vacancyDtoToVacancyConverter.convert(vacancyDto);
@@ -49,7 +49,7 @@ public class VacancyController {
     @FailOnGetParams
     public ResponseEntity<?> addResume(@PathVariable Long vacancyId, @PathVariable Long resumeId, Principal principal, HttpServletRequest request) throws EntityNotFoundException {
         if (!vacancyService.existsById(vacancyId) || !resumeService.existsById(resumeId)) {
-            return ResponseEntity.badRequest().body("Invalid vacancy or resume ID (is null)");
+            return ResponseEntity.badRequest().body("Invalid vacancy or resume ID");
         }
 
         Vacancy vacancy = vacancyService.getById(vacancyId);

@@ -32,7 +32,7 @@ public class ResumeController {
     ResumeDtoToResumeConverter resumeDtoToResumeConverter;
     ResumeToResumeDtoConverter resumeToResumeDtoConverter;
 
-    @PostMapping("/resume/create")
+    @PostMapping("/resume")
     @FailOnGetParams
     public ResponseEntity<?> create(@Valid @RequestBody ResumeDto resumeDto,
                                     Principal principal,
@@ -49,7 +49,7 @@ public class ResumeController {
         return new ResponseEntity<>(resumeToResumeDtoConverter.convert(savedResume), HttpStatus.CREATED);
     }
 
-    @GetMapping("/resume/get/all")
+    @GetMapping("/resume")
     @FailOnGetParams
     public ResponseEntity<List<ResumeDto>> getAll(Principal principal, HttpServletRequest request) {
         List<Resume> resumes = resumeService.getAllForCurrentPrincipal(principal);
