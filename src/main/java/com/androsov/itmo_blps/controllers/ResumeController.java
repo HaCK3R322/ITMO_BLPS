@@ -33,10 +33,8 @@ public class ResumeController {
     ResumeToResumeDtoConverter resumeToResumeDtoConverter;
 
     @PostMapping("/resume")
-    @FailOnGetParams
     public ResponseEntity<?> create(@Valid @RequestBody ResumeDto resumeDto,
-                                    Principal principal,
-                                    HttpServletRequest request) {
+                                    Principal principal) {
         if (resumeDto.getUsername() == null || !resumeDto.getUsername().equals(principal.getName())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body("Current user has no access to create resume for user " + resumeDto.getUsername());
