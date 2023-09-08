@@ -27,7 +27,7 @@ public class ResumeDtoToResumeConverter implements Converter<ResumeDto, Resume> 
             return resumeRepository.findById(resumeDto.getId()).orElseThrow(EntityNotFoundException::new);
         }
 
-        User user = userRepository.findById(resumeDto.getUserId());
+        User user = userRepository.findByUsername(resumeDto.getUsername());
 
         Resume resume = new Resume();
         resume.setUser(user);

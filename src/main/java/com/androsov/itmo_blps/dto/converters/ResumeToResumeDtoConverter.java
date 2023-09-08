@@ -20,7 +20,7 @@ public class ResumeToResumeDtoConverter implements Converter<Resume, ResumeDto> 
 
         return new ResumeDto(
                 resume.getId(),
-                resume.getUser().getId(), // Assuming you want the user ID
+                resume.getUser().getUsername(), // Assuming you want the user ID
                 imageId,
                 resume.getName(),
                 resume.getSurname(),

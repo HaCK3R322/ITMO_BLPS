@@ -23,7 +23,7 @@ public class ResumeDto {
     private Long id;
 
     @JsonProperty("userId")
-    private Long userId;
+    private String username;
 
     @JsonProperty("imageId")
     @Null

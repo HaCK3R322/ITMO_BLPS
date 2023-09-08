@@ -57,6 +57,21 @@ public class ResumeController {
         return new ResponseEntity<>(resumeDtos, HttpStatus.OK);
     }
 
+    @GetMapping("/resume/{id}")
+    @FailOnGetParams
+    public ResponseEntity<?> getById(@PathVariable Long id, Principal principal, HttpServletRequest request) {
+        Resume resume = resumeService.getById(id);
+
+        if (resume.getUser().getUsername() == null || !resume.getUser().getUsername().equals(principal.getName())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Current user has no access to this resume id");
+        }
+
+        ResumeDto resumeDto = resumeToResumeDtoConverter.convert(resume);
+
+        return new ResponseEntity<>(resumeDto, HttpStatus.OK);
+    }
+
     @PatchMapping("/resume/{resumeId}/attach/image/{imageId}")
     @FailOnGetParams
     public ResponseEntity<?> attachImage(@PathVariable Long resumeId, @PathVariable Long imageId, HttpServletRequest request) throws EntityNotFoundException {
@@ -67,7 +82,7 @@ public class ResumeController {
         Resume resume = resumeService.getById(resumeId);
         Image image = imageService.getImageById(imageId);
 
-        resume.setImage(image);
+        resume.setResumeImage(image);
 
         resume = resumeService.saveResume(resume);
 
