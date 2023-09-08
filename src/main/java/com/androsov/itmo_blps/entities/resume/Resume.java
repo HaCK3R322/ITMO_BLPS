@@ -5,6 +5,7 @@ import com.androsov.itmo_blps.entities.Image;
 import com.androsov.itmo_blps.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
@@ -17,6 +18,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Table(name = "resumes")
+@NoArgsConstructor
 public class Resume {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -92,7 +94,4 @@ public class Resume {
     // portfolio attached to resume by FK resume_id
 
     // =================================================================================
-
-    public Resume() {
-    }
 }

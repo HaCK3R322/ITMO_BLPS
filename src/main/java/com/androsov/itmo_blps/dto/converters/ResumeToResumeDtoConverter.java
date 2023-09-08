@@ -15,26 +15,31 @@ import java.util.List;
 public class ResumeToResumeDtoConverter implements Converter<Resume, ResumeDto> {
     @Override
     public ResumeDto convert(Resume resume) {
-        Image image = resume.getImage();
-        Long imageId = null;
-        if (image != null) imageId = image.getId();
+        Image image = resume.getResumeImage(); // Use getResumeImage() to get the image associated with the resume
+        Long imageId = (image != null) ? image.getId() : null;
 
         return new ResumeDto(
                 resume.getId(),
-                resume.getUser().getUsername(),
-                resume.getSpecialization(),
+                resume.getUser().getId(), // Assuming you want the user ID
+                imageId,
                 resume.getName(),
                 resume.getSurname(),
-                resume.getAge(),
-                resume.getStudyingDescription(),
-                resume.getJobsDescription(),
-                imageId);
+                resume.getPatronymic(),
+                resume.getDateOfBirth(),
+                resume.getCity(),
+                resume.getMetroStation(),
+                resume.getPhoneNumber(),
+                resume.getEmail(),
+                resume.getDesiredPosition(),
+                resume.getSalary(),
+                resume.getEmployment(),
+                resume.getSkills());
     }
 
     public List<ResumeDto> convert(List<Resume> resumes) {
-
         return resumes.stream()
                 .map(this::convert)
                 .toList();
     }
 }
+

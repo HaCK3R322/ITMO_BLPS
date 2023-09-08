@@ -19,7 +19,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "username", unique = true)
     @Size(min = 3, max = 32, message = "Username should be in range of 3-32 symbols")

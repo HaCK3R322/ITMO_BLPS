@@ -23,26 +23,34 @@ public class ResumeDtoToResumeConverter implements Converter<ResumeDto, Resume> 
 
     @Override
     public Resume convert(ResumeDto resumeDto) throws EntityNotFoundException {
-        User user = userRepository.findByUsername(resumeDto.getUsername());
-
-        Image image = null;
-        if(resumeDto.getImageId() != null) {
-            image = imageService.getImageById(resumeDto.getImageId());
-        }
-
-        if (resumeDto.getId() != null) {
+        if (resumeDto.getId() != null) { // if we work with some created resume
             return resumeRepository.findById(resumeDto.getId()).orElseThrow(EntityNotFoundException::new);
         }
 
-        return new Resume(null,
-                user,
-                resumeDto.getSpecialization(),
-                resumeDto.getName(),
-                resumeDto.getSurname(),
-                resumeDto.getAge(),
-                resumeDto.getStudyingDescription(),
-                resumeDto.getJobsDescription(),
-                image);
+        User user = userRepository.findById(resumeDto.getUserId());
+
+        Resume resume = new Resume();
+        resume.setUser(user);
+
+        if(resumeDto.getImageId() != null) {
+            Image image = imageService.getImageById(resumeDto.getImageId());
+            resume.setResumeImage(image);
+        }
+
+        resume.setName(resumeDto.getName());
+        resume.setSurname(resumeDto.getSurname());
+        resume.setPatronymic(resumeDto.getPatronymic());
+        resume.setDateOfBirth(resumeDto.getDateOfBirth());
+        resume.setCity(resumeDto.getCity());
+        resume.setMetroStation(resumeDto.getMetroStation());
+        resume.setPhoneNumber(resumeDto.getPhoneNumber());
+        resume.setEmail(resumeDto.getEmail());
+        resume.setDesiredPosition(resumeDto.getDesiredPosition());
+        resume.setSalary(resumeDto.getSalary());
+        resume.setEmployment(resumeDto.getEmployment());
+        resume.setSkills(resumeDto.getSkills());
+
+        return resume;
     }
 
     public List<Resume> convert(List<ResumeDto> resumes) {
