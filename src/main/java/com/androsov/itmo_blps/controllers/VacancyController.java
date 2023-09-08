@@ -5,7 +5,7 @@ import com.androsov.itmo_blps.dto.VacancyDto;
 import com.androsov.itmo_blps.dto.VacancySearchParams;
 import com.androsov.itmo_blps.dto.converters.VacancyDtoToVacancyConverter;
 import com.androsov.itmo_blps.dto.converters.VacancyToVacancyDtoConverter;
-import com.androsov.itmo_blps.entities.Resume;
+import com.androsov.itmo_blps.entities.resume.Resume;
 import com.androsov.itmo_blps.entities.ResumeVacancyLink;
 import com.androsov.itmo_blps.entities.Vacancy;
 import com.androsov.itmo_blps.servicies.ResumeService;

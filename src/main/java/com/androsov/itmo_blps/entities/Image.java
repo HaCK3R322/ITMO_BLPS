@@ -21,7 +21,7 @@ public class Image {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private User uploadingUser;
 
     public Image() {
 

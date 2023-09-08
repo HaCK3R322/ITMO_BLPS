@@ -2,7 +2,7 @@ package com.androsov.itmo_blps.dto.converters;
 
 import com.androsov.itmo_blps.dto.ResumeDto;
 import com.androsov.itmo_blps.entities.Image;
-import com.androsov.itmo_blps.entities.Resume;
+import com.androsov.itmo_blps.entities.resume.Resume;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

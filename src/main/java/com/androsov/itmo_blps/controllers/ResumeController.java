@@ -5,7 +5,7 @@ import com.androsov.itmo_blps.dto.ResumeDto;
 import com.androsov.itmo_blps.dto.converters.ResumeDtoToResumeConverter;
 import com.androsov.itmo_blps.dto.converters.ResumeToResumeDtoConverter;
 import com.androsov.itmo_blps.entities.Image;
-import com.androsov.itmo_blps.entities.Resume;
+import com.androsov.itmo_blps.entities.resume.Resume;
 import com.androsov.itmo_blps.servicies.ImageService;
 import com.androsov.itmo_blps.servicies.ResumeService;
 import lombok.AllArgsConstructor;

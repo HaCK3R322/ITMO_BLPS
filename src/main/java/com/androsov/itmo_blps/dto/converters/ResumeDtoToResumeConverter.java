@@ -2,7 +2,7 @@ package com.androsov.itmo_blps.dto.converters;
 
 import com.androsov.itmo_blps.dto.ResumeDto;
 import com.androsov.itmo_blps.entities.Image;
-import com.androsov.itmo_blps.entities.Resume;
+import com.androsov.itmo_blps.entities.resume.Resume;
 import com.androsov.itmo_blps.entities.User;
 import com.androsov.itmo_blps.repositories.ResumeRepository;
 import com.androsov.itmo_blps.repositories.UserRepository;

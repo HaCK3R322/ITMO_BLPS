@@ -1,6 +1,6 @@
 package com.androsov.itmo_blps.servicies;
 
-import com.androsov.itmo_blps.entities.Resume;
+import com.androsov.itmo_blps.entities.resume.Resume;
 import com.androsov.itmo_blps.entities.User;
 import com.androsov.itmo_blps.repositories.ResumeRepository;
 import com.androsov.itmo_blps.repositories.UserRepository;
