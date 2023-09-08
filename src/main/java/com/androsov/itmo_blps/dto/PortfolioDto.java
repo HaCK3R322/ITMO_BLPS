@@ -19,7 +19,6 @@ import javax.validation.constraints.NotNull;
 public class PortfolioDto {
 
     @JsonProperty("id")
-    @NotNull
     private Long id;
 
     @JsonProperty("resumeId")

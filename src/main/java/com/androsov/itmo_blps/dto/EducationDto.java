@@ -17,7 +17,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class EducationDto {
     @JsonProperty("id")
-    @NotNull
     private Long id;
 
     @JsonProperty("resumeId")

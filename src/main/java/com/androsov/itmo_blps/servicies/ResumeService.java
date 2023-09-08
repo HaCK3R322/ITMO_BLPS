@@ -32,6 +32,7 @@ public class ResumeService {
         return resumeRepository.getAllByUser(user);
     }
 
+    // TODO: work with optional - need to throw normal Exceptions like access denied or what entity not found
     public Resume getById(Long id) throws EntityNotFoundException {
         return resumeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
