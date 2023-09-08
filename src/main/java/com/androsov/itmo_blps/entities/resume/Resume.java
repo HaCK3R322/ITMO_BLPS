@@ -1,5 +1,6 @@
 package com.androsov.itmo_blps.entities.resume;
 
+import com.androsov.itmo_blps.annotations.NullOrNotBlank;
 import com.androsov.itmo_blps.entities.Image;
 import com.androsov.itmo_blps.entities.User;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,7 @@ public class Resume {
 
     @OneToOne(fetch = FetchType.LAZY) // lazy fetch type to not carry this big ass image everywhere
     @JoinColumn(name = "resume_image_id")
+    @Null
     private Image resumeImage;
 
     // ================================================================================
@@ -50,6 +52,7 @@ public class Resume {
     @NotBlank(message = "City is required")
     private String city;
 
+    @NullOrNotBlank(message = "Metro station should be null or not blank")
     private String metroStation;
 
     @NotBlank(message = "Phone number is required")
@@ -62,13 +65,12 @@ public class Resume {
 
     // ================================================================================
 
-    @NotBlank(message = "Desired position is required")
+    @NullOrNotBlank(message = "Desired must be null or must not be blank")
     private String desiredPosition;
 
     @DecimalMin(value = "0.0", message = "Salary should not be negative")
     private Double salary;
 
-    @NotBlank(message = "Employment is required")
     @Pattern(regexp = "^(Full|Part-time|Shift|Rotational|Partial Remote)$", message = "Invalid employment value")
     private String employment;
 
@@ -79,7 +81,6 @@ public class Resume {
     // =================================================================================
 
     @Pattern(regexp = "^(\\w*;)*$", message = "Invalid skills format. Use semicolons to separate skills.")
-    @Null
     private String skills;
 
     // =================================================================================
