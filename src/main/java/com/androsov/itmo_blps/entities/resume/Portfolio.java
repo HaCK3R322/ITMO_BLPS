@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @AllArgsConstructor
@@ -20,6 +21,7 @@ public class Portfolio {
     @JoinColumn(name = "resume_id", nullable = false)
     private Resume resume;
 
+    @NotBlank
     private String description;
 
     @OneToOne(fetch = FetchType.LAZY) // lazy fetch type to not carry this big ass image everywhere
