@@ -16,11 +16,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EducationDto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("id")
+    @NotNull
     private Long id;
 
     @JsonProperty("resumeId")
+    @NotNull
     private Long resumeId;
 
     @NotBlank(message = "Education level must not be blank")

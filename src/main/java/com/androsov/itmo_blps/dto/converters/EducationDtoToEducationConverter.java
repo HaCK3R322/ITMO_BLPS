@@ -17,6 +17,8 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+@Component
+@AllArgsConstructor
 public class EducationDtoToEducationConverter implements Converter<EducationDto, Education> {
     EducationRepository educationRepository;
     ResumeRepository resumeRepository;
