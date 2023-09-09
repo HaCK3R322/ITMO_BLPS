@@ -4,10 +4,7 @@ import com.androsov.itmo_blps.annotations.NullOrNotBlank;
 import com.androsov.itmo_blps.entities.Image;
 import com.androsov.itmo_blps.entities.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -17,12 +14,12 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class ResumeDto {
     @JsonProperty("id")
     private Long id;
 
-    @JsonProperty("userId")
+    @JsonProperty("username")
     private String username;
 
     @JsonProperty("imageId")

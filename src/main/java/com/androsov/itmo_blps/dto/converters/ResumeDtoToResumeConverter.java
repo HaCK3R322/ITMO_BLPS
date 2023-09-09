@@ -33,7 +33,7 @@ public class ResumeDtoToResumeConverter implements Converter<ResumeDto, Resume> 
         resume.setUser(user);
 
         if(resumeDto.getImageId() != null) {
-            Image image = imageService.getImageById(resumeDto.getImageId());
+            Image image = imageService.getById(resumeDto.getImageId());
             resume.setResumeImage(image);
         }
 

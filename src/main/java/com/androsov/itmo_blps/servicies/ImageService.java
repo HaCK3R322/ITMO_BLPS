@@ -4,18 +4,37 @@ import com.androsov.itmo_blps.entities.Image;
 import com.androsov.itmo_blps.entities.User;
 import com.androsov.itmo_blps.repositories.ImageRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class ImageService {
     private ImageRepository imageRepository;
 
-    public Image getImageById(Long id) throws EntityNotFoundException {
+    public Image getById(Long id) throws EntityNotFoundException {
+        Optional<Image> imageOptional = imageRepository.findById(id);
 
-        return imageRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        if(imageOptional.isEmpty())
+            throw new EntityNotFoundException("Image with id " + id + " not found!");
+
+        if(!currentPrincipalHasAccessToImage(imageOptional.get())) {
+            throw new AccessDeniedException("User with username "
+                    + SecurityContextHolder.getContext().getAuthentication().getName()
+                    + " has no access to resume with id " + id);
+        }
+
+        return imageOptional.get();
+    }
+
+    public boolean currentPrincipalHasAccessToImage(Image image) throws EntityNotFoundException {
+        String imageUsername = image.getUploadingUser().getUsername();
+        String principalName = SecurityContextHolder.getContext().getAuthentication().getName();
+        return principalName.equals(imageUsername);
     }
 
     public Image createFromDataAndUser(byte[] data, User user) {
@@ -24,5 +43,8 @@ public class ImageService {
 
     public boolean existsById(Long id) {
         return imageRepository.existsById(id);
+    }
+    public boolean exists(Image image) {
+        return existsById(image.getId());
     }
 }

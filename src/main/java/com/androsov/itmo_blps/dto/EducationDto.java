@@ -20,7 +20,6 @@ public class EducationDto {
     private Long id;
 
     @JsonProperty("resumeId")
-    @NotNull
     private Long resumeId;
 
     @NotBlank(message = "Education level must not be blank")
