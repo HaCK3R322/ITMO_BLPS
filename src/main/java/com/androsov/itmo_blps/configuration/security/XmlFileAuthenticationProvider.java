@@ -6,11 +6,14 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -22,29 +25,24 @@ import java.util.logging.Logger;
 
 
 public class XmlFileAuthenticationProvider implements AuthenticationProvider {
+    UserDetailsService userDetailsService;
+    PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        if ("worker1".equals(username) && "123".equals(password)) {
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority("ROLE_WORKER"));
+        // Load user details from the UserDetailsService
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            return new UsernamePasswordAuthenticationToken(username, password, authorities);
-        } else if("hr1".equals(username)) {
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority("ROLE_HR"));
-
-            return new UsernamePasswordAuthenticationToken(username, password, authorities);
+        // Check if the provided password matches the user's password
+        if (passwordEncoder.matches(password, userDetails.getPassword())) {
+            return new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(), userDetails.getAuthorities());
+        } else {
+            // Passwords don't match, throw an AuthenticationException
+            throw new BadCredentialsException("Invalid username or password");
         }
-
-        Logger LOGGER = Logger.getLogger(XmlFileAuthenticationProvider.class.getName());
-        LOGGER.log(Level.WARNING, "In xml auth you!");
-
-        // If authentication fails, return null or throw an AuthenticationException.
-        return null;
     }
 
     // This method is used by Spring Security to determine if this provider supports the given authentication token.
