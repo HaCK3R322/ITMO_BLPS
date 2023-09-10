@@ -1,7 +1,7 @@
 package com.androsov.itmo_blps.servicies;
 
-import com.androsov.itmo_blps.entities.Image;
-import com.androsov.itmo_blps.entities.User;
+import com.androsov.itmo_blps.model.entities.Image;
+import com.androsov.itmo_blps.model.User;
 import com.androsov.itmo_blps.repositories.ImageRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -15,6 +15,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ImageService {
     private ImageRepository imageRepository;
+    private UserService userService;
 
     public Image getById(Long id) throws EntityNotFoundException, AccessDeniedException {
         Optional<Image> imageOptional = imageRepository.findById(id);
@@ -32,13 +33,14 @@ public class ImageService {
     }
 
     public boolean currentPrincipalHasAccessToImage(Image image) throws EntityNotFoundException {
-        String imageUsername = image.getUploadingUser().getUsername();
+        User user = userService.getById(image.getUserId());
+        String imageUsername = user.getUsername();
         String principalName = SecurityContextHolder.getContext().getAuthentication().getName();
         return principalName.equals(imageUsername);
     }
 
     public Image createFromDataAndUser(byte[] data, User user) {
-        return imageRepository.save(new Image(null, data, user));
+        return imageRepository.save(new Image(null, data, user.getId()));
     }
 
     public boolean existsById(Long id) {

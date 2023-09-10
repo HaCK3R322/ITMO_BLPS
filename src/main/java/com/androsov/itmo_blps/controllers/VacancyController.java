@@ -4,7 +4,7 @@ import com.androsov.itmo_blps.annotations.FailOnGetParams;
 import com.androsov.itmo_blps.dto.requests.VacancySearchParams;
 import com.androsov.itmo_blps.dto.requests.VacancyCreateRequest;
 import com.androsov.itmo_blps.dto.responses.VacancyGetResponse;
-import com.androsov.itmo_blps.entities.Vacancy;
+import com.androsov.itmo_blps.model.entities.Vacancy;
 import com.androsov.itmo_blps.servicies.ResumeService;
 import com.androsov.itmo_blps.servicies.ResumeVacancyLinkService;
 import com.androsov.itmo_blps.servicies.VacancyService;

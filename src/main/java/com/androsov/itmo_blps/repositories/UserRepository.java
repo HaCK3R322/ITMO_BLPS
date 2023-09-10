@@ -1,16 +1,17 @@
 package com.androsov.itmo_blps.repositories;
 
-import com.androsov.itmo_blps.entities.User;
+import com.androsov.itmo_blps.model.User;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends CrudRepository<User, Integer> {
-    User findByUsername(String username);
+import java.util.Optional;
 
-    User getByUsername(String username);
+@Repository
+public interface UserRepository {
+    User save(User user);
 
-    Boolean existsByUsername(String username);
+    Optional<User> getByUsername(String username);
+    Optional<User> getById(Long id);
 
-    boolean existsById(Long id);
-
-    User findById(Long userId);
+    Optional<User> findById(Long userId);
 }

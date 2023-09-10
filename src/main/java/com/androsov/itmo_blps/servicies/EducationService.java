@@ -1,8 +1,8 @@
 package com.androsov.itmo_blps.servicies;
 
 import com.androsov.itmo_blps.dto.requests.EducationCreateRequest;
-import com.androsov.itmo_blps.entities.resume.Education;
-import com.androsov.itmo_blps.entities.resume.Resume;
+import com.androsov.itmo_blps.model.entities.resume.Education;
+import com.androsov.itmo_blps.model.entities.resume.Resume;
 import com.androsov.itmo_blps.repositories.EducationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

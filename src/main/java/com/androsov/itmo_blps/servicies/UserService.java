@@ -1,8 +1,8 @@
 package com.androsov.itmo_blps.servicies;
 
 import com.androsov.itmo_blps.dto.requests.UserRegistrationRequest;
-import com.androsov.itmo_blps.entities.Role;
-import com.androsov.itmo_blps.entities.User;
+import com.androsov.itmo_blps.model.User;
+import com.androsov.itmo_blps.model.entities.Role;
 import com.androsov.itmo_blps.repositories.RoleRepository;
 import com.androsov.itmo_blps.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -23,10 +23,8 @@ public class UserService {
 
 
     public User registerFromRequest(UserRegistrationRequest request) {
-        // if username not unique throw exception
-        if (userRepository.findByUsername(request.getUsername().trim()) != null) {
+        if(userRepository.getByUsername(request.getUsername()).isPresent())
             throw new DataIntegrityViolationException("Username already exists");
-        }
 
         User user = new User();
         user.setUsername(request.getUsername());
@@ -42,8 +40,22 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User getByUsername(String username) {
-        return userRepository.getByUsername(username);
+    public User getById(Long userId) throws EntityNotFoundException {
+        Optional<User> optionalUser = userRepository.getById(userId);
+
+        if(optionalUser.isEmpty())
+            throw new EntityNotFoundException("User with id " + userId + " not found!");
+
+        return optionalUser.get();
+    }
+
+    public User getByUsername(String username) throws EntityNotFoundException {
+        Optional<User> optionalUser = userRepository.getByUsername(username);
+
+        if(optionalUser.isEmpty())
+            throw new EntityNotFoundException("User with username " + username + " not found!");
+
+        return optionalUser.get();
     }
 
     public User getCurrentUser() {

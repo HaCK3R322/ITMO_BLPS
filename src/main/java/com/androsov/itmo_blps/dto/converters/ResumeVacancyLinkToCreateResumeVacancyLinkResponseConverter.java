@@ -1,10 +1,7 @@
 package com.androsov.itmo_blps.dto.converters;
 
-import com.androsov.itmo_blps.dto.responses.ResumeGetResponse;
 import com.androsov.itmo_blps.dto.responses.ResumeVacancyLinkGetResponse;
-import com.androsov.itmo_blps.entities.Image;
-import com.androsov.itmo_blps.entities.ResumeVacancyLink;
-import com.androsov.itmo_blps.entities.resume.Resume;
+import com.androsov.itmo_blps.model.entities.ResumeVacancyLink;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

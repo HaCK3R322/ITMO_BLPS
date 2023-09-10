@@ -1,8 +1,8 @@
 package com.androsov.itmo_blps.dto.converters;
 
 import com.androsov.itmo_blps.dto.responses.PortfolioGetResponse;
-import com.androsov.itmo_blps.entities.Image;
-import com.androsov.itmo_blps.entities.resume.Portfolio;
+import com.androsov.itmo_blps.model.entities.Image;
+import com.androsov.itmo_blps.model.entities.resume.Portfolio;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,8 @@
 package com.androsov.itmo_blps.servicies;
 
-import com.androsov.itmo_blps.entities.resume.Resume;
-import com.androsov.itmo_blps.entities.ResumeVacancyLink;
-import com.androsov.itmo_blps.entities.Vacancy;
+import com.androsov.itmo_blps.model.entities.resume.Resume;
+import com.androsov.itmo_blps.model.entities.ResumeVacancyLink;
+import com.androsov.itmo_blps.model.entities.Vacancy;
 import com.androsov.itmo_blps.repositories.ResumeVacancyLinkRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

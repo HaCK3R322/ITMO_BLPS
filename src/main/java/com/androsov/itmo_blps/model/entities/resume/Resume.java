@@ -1,8 +1,8 @@
-package com.androsov.itmo_blps.entities.resume;
+package com.androsov.itmo_blps.model.entities.resume;
 
 import com.androsov.itmo_blps.annotations.NullOrNotBlank;
-import com.androsov.itmo_blps.entities.Image;
-import com.androsov.itmo_blps.entities.User;
+import com.androsov.itmo_blps.model.entities.Image;
+import com.androsov.itmo_blps.model.User;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -23,9 +23,8 @@ public class Resume {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(name = "user_id")
+    private Long userId;
 
     // TODO: fix image - instead of data work around with links to images on file system
     @OneToOne(fetch = FetchType.LAZY) // lazy fetch type to not carry this big ass image everywhere

@@ -1,11 +1,10 @@
 package com.androsov.itmo_blps.servicies;
 
 import com.androsov.itmo_blps.dto.requests.WorkExperienceCreateRequest;
-import com.androsov.itmo_blps.entities.resume.Resume;
-import com.androsov.itmo_blps.entities.resume.WorkExperience;
+import com.androsov.itmo_blps.model.entities.resume.Resume;
+import com.androsov.itmo_blps.model.entities.resume.WorkExperience;
 import com.androsov.itmo_blps.repositories.WorkExperienceRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

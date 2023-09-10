@@ -1,13 +1,13 @@
 package com.androsov.itmo_blps.repositories;
 
-import com.androsov.itmo_blps.entities.User;
-import com.androsov.itmo_blps.entities.Vacancy;
+import com.androsov.itmo_blps.model.User;
+import com.androsov.itmo_blps.model.entities.Vacancy;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface VacancyRepository extends JpaRepository<Vacancy, Long> {
     boolean existsById(Long id);
-    boolean existsByUserAndName(User user, String name);
+    boolean existsByUserIdAndName(Long userId, String name);
 
-    Vacancy findByUserAndName(User user, String name);
+    Vacancy findByUserIdAndName(Long userId, String name);
 
 }

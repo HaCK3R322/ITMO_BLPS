@@ -1,7 +1,7 @@
 package com.androsov.itmo_blps.dto.converters;
 
 import com.androsov.itmo_blps.dto.responses.VacancyGetResponse;
-import com.androsov.itmo_blps.entities.Vacancy;
+import com.androsov.itmo_blps.model.entities.Vacancy;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ public class VacancyToVacancyGetResponseConverter implements Converter<Vacancy, 
         VacancyGetResponse response = new VacancyGetResponse();
 
         response.setId(vacancy.getId());
-        response.setUserId(vacancy.getUser().getId());
+        response.setUserId(vacancy.getUserId());
         response.setName(vacancy.getName());
         response.setDescription(vacancy.getDescription());
         response.setCity(vacancy.getCity());

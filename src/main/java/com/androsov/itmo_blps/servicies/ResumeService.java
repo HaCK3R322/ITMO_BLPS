@@ -1,19 +1,16 @@
 package com.androsov.itmo_blps.servicies;
 
 import com.androsov.itmo_blps.dto.requests.ResumeCreateRequest;
-import com.androsov.itmo_blps.entities.Image;
-import com.androsov.itmo_blps.entities.resume.Education;
-import com.androsov.itmo_blps.entities.resume.Resume;
-import com.androsov.itmo_blps.entities.User;
+import com.androsov.itmo_blps.model.entities.Image;
+import com.androsov.itmo_blps.model.entities.resume.Resume;
+import com.androsov.itmo_blps.model.User;
 import com.androsov.itmo_blps.repositories.ResumeRepository;
-import com.androsov.itmo_blps.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +32,7 @@ public class ResumeService {
 
         Resume resume = new Resume();
 
-        resume.setUser(user);
+        resume.setUserId(user.getId());
         resume.setName(resumeRequest.getName());
         resume.setSurname(resumeRequest.getSurname());
         resume.setPatronymic(resumeRequest.getPatronymic());
@@ -54,7 +51,7 @@ public class ResumeService {
 
     public List<Resume> getAllForCurrentPrincipal() {
         User user = userService.getCurrentUser();
-        return resumeRepository.getAllByUser(user);
+        return resumeRepository.getAllByUserId(user.getId());
     }
 
     public Resume getById(Long id) throws EntityNotFoundException, AccessDeniedException {
@@ -89,7 +86,7 @@ public class ResumeService {
     }
 
     public boolean currentPrincipalHasAccessToResume(Resume resume) throws EntityNotFoundException { //TODO: not role-based yet
-        String resumeUsername = resume.getUser().getUsername();
+        String resumeUsername = userService.getById(resume.getUserId()).getUsername();
         String currentUserUsername = userService.getCurrentUser().getUsername();
 
         return currentUserUsername.equals(resumeUsername);

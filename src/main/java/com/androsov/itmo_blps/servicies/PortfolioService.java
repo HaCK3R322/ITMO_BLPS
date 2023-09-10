@@ -1,8 +1,8 @@
 package com.androsov.itmo_blps.servicies;
 
 import com.androsov.itmo_blps.dto.requests.PortfolioCreateRequest;
-import com.androsov.itmo_blps.entities.resume.Portfolio;
-import com.androsov.itmo_blps.entities.resume.Resume;
+import com.androsov.itmo_blps.model.entities.resume.Portfolio;
+import com.androsov.itmo_blps.model.entities.resume.Resume;
 import com.androsov.itmo_blps.repositories.PortfolioRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;

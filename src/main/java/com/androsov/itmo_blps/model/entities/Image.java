@@ -1,25 +1,29 @@
-package com.androsov.itmo_blps.entities;
+package com.androsov.itmo_blps.model.entities;
 
+import com.androsov.itmo_blps.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "privileges")
-public class Privilege {
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String name;
+    @Column(name = "data")
+    private byte[] data;
+
+    @Column(name = "user_id")
+    private Long userId;
+
+    public Image() {
+
+    }
 }

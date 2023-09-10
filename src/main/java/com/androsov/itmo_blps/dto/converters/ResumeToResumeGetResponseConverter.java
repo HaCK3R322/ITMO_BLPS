@@ -1,13 +1,10 @@
 package com.androsov.itmo_blps.dto.converters;
 
 import com.androsov.itmo_blps.dto.responses.ResumeGetResponse;
-import com.androsov.itmo_blps.entities.Image;
-import com.androsov.itmo_blps.entities.resume.Resume;
-import lombok.RequiredArgsConstructor;
+import com.androsov.itmo_blps.model.entities.Image;
+import com.androsov.itmo_blps.model.entities.resume.Resume;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 public class ResumeToResumeGetResponseConverter implements Converter<Resume, ResumeGetResponse> {
@@ -16,7 +13,7 @@ public class ResumeToResumeGetResponseConverter implements Converter<Resume, Res
         ResumeGetResponse response = new ResumeGetResponse();
 
         response.setId(source.getId());
-        response.setUserId(source.getUser().getId());
+        response.setUserId(source.getUserId());
         response.setResumeImageId(source.getResumeImage().map(Image::getId).orElse(null)); // or image id, or null
         response.setName(source.getName());
         response.setSurname(source.getSurname());

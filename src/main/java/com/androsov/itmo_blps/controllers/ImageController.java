@@ -1,8 +1,8 @@
 package com.androsov.itmo_blps.controllers;
 
 import com.androsov.itmo_blps.annotations.FailOnGetParams;
-import com.androsov.itmo_blps.entities.Image;
-import com.androsov.itmo_blps.entities.User;
+import com.androsov.itmo_blps.model.entities.Image;
+import com.androsov.itmo_blps.model.User;
 import com.androsov.itmo_blps.servicies.ImageService;
 import com.androsov.itmo_blps.servicies.UserService;
 import lombok.AllArgsConstructor;

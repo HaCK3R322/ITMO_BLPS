@@ -2,8 +2,8 @@ package com.androsov.itmo_blps.servicies;
 
 import com.androsov.itmo_blps.dto.requests.VacancySearchParams;
 import com.androsov.itmo_blps.dto.requests.VacancyCreateRequest;
-import com.androsov.itmo_blps.entities.User;
-import com.androsov.itmo_blps.entities.Vacancy;
+import com.androsov.itmo_blps.model.User;
+import com.androsov.itmo_blps.model.entities.Vacancy;
 import com.androsov.itmo_blps.repositories.VacancyRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -29,13 +29,13 @@ public class VacancyService {
     public Vacancy createFromRequest(VacancyCreateRequest request) throws IllegalArgumentException {
         User user = userService.getCurrentUser();
 
-        if (vacancyRepository.existsByUserAndName(user, request.getName()))
+        if (vacancyRepository.existsByUserIdAndName(user.getId(), request.getName()))
             throw new IllegalArgumentException("Vacancy with user '" + user.getUsername() +
                     "' and name '" + request.getName() + "' already exists.");
 
         Vacancy vacancy = new Vacancy();
 
-        vacancy.setUser(user);
+        vacancy.setUserId(user.getId());
         vacancy.setName(request.getName());
         vacancy.setDescription(request.getDescription());
         vacancy.setCity(request.getCity());

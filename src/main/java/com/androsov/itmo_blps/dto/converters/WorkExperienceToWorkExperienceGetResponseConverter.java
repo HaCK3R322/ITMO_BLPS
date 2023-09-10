@@ -1,7 +1,7 @@
 package com.androsov.itmo_blps.dto.converters;
 
 import com.androsov.itmo_blps.dto.responses.WorkExperienceGetResponse;
-import com.androsov.itmo_blps.entities.resume.WorkExperience;
+import com.androsov.itmo_blps.model.entities.resume.WorkExperience;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

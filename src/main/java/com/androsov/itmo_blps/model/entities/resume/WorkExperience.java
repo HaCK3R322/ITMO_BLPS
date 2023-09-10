@@ -1,6 +1,5 @@
-package com.androsov.itmo_blps.entities.resume;
+package com.androsov.itmo_blps.model.entities.resume;
 
-import com.androsov.itmo_blps.entities.resume.Resume;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
