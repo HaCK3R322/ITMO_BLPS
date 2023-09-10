@@ -1,4 +1,4 @@
-package com.androsov.itmo_blps.dto.converters;
+package com.androsov.itmo_blps.dto.convertersss;
 
 import com.androsov.itmo_blps.dto.WorkExperienceDto;
 import com.androsov.itmo_blps.entities.resume.Resume;

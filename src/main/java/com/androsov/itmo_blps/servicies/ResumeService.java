@@ -1,5 +1,6 @@
 package com.androsov.itmo_blps.servicies;
 
+import com.androsov.itmo_blps.dto.requests.ResumeCreateRequest;
 import com.androsov.itmo_blps.entities.Image;
 import com.androsov.itmo_blps.entities.resume.Education;
 import com.androsov.itmo_blps.entities.resume.Resume;
@@ -20,21 +21,39 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ResumeService {
     ResumeRepository resumeRepository;
-    UserRepository userRepository;
     ImageService imageService;
+    UserService userService;
 
-    public Resume saveResume(Resume resume) {
+
+
+    // ===============================================================================
+
+    public Resume createFromRequest(ResumeCreateRequest resumeRequest) {
+        //TODO: проверить на права на создание: создавать должен только пользователь с ролью "соискатель"
+
+        User user = userService.getCurrentUser();
+
+        Resume resume = new Resume();
+
+        resume.setUser(user);
+        resume.setName(resumeRequest.getName());
+        resume.setSurname(resumeRequest.getSurname());
+        resume.setPatronymic(resumeRequest.getPatronymic());
+        resume.setDateOfBirth(resumeRequest.getDateOfBirth());
+        resume.setCity(resumeRequest.getCity());
+        resume.setMetroStation(resumeRequest.getMetroStation());
+        resume.setPhoneNumber(resumeRequest.getPhoneNumber());
+        resume.setEmail(resumeRequest.getEmail());
+        resume.setDesiredPosition(resumeRequest.getDesiredPosition());
+        resume.setSalary(resumeRequest.getSalary());
+        resume.setEmployment(resumeRequest.getEmployment());
+        resume.setSkills(resumeRequest.getSkills());
+
         return resumeRepository.save(resume);
     }
 
-    public List<Resume> getAllByUser(User user) {
-        return resumeRepository.getAllByUser(user);
-    }
-
-    public List<Resume> getAllForCurrentPrincipal(Principal principal) {
-        String username = principal.getName();
-        User user = userRepository.getByUsername(username);
-
+    public List<Resume> getAllForCurrentPrincipal() {
+        User user = userService.getCurrentUser();
         return resumeRepository.getAllByUser(user);
     }
 
@@ -71,9 +90,9 @@ public class ResumeService {
 
     public boolean currentPrincipalHasAccessToResume(Resume resume) throws EntityNotFoundException { //TODO: not role-based yet
         String resumeUsername = resume.getUser().getUsername();
-        String principalName = SecurityContextHolder.getContext().getAuthentication().getName();
+        String currentUserUsername = userService.getCurrentUser().getUsername();
 
-        return principalName.equals(resumeUsername);
+        return currentUserUsername.equals(resumeUsername);
     }
 
 }

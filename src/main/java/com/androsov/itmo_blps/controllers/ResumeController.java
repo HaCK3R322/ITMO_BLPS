@@ -2,21 +2,26 @@ package com.androsov.itmo_blps.controllers;
 
 import com.androsov.itmo_blps.annotations.FailOnGetParams;
 import com.androsov.itmo_blps.dto.EducationDto;
-import com.androsov.itmo_blps.dto.ResumeDto;
+import com.androsov.itmo_blps.dto.requests.EducationCreateRequest;
+import com.androsov.itmo_blps.dto.requests.PortfolioCreateRequest;
+import com.androsov.itmo_blps.dto.requests.ResumeCreateRequest;
 import com.androsov.itmo_blps.dto.WorkExperienceDto;
-import com.androsov.itmo_blps.dto.converters.*;
-import com.androsov.itmo_blps.entities.Image;
+import com.androsov.itmo_blps.dto.convertersss.*;
+import com.androsov.itmo_blps.dto.requests.WorkExperienceCreateRequest;
+import com.androsov.itmo_blps.dto.responses.EducationGetResponse;
+import com.androsov.itmo_blps.dto.responses.PortfolioGetResponse;
+import com.androsov.itmo_blps.dto.responses.ResumeGetResponse;
+import com.androsov.itmo_blps.dto.responses.WorkExperienceGetResponse;
 import com.androsov.itmo_blps.entities.resume.Education;
+import com.androsov.itmo_blps.entities.resume.Portfolio;
 import com.androsov.itmo_blps.entities.resume.Resume;
 import com.androsov.itmo_blps.entities.resume.WorkExperience;
-import com.androsov.itmo_blps.repositories.EducationRepository;
 import com.androsov.itmo_blps.repositories.WorkExperienceRepository;
-import com.androsov.itmo_blps.servicies.EducationService;
-import com.androsov.itmo_blps.servicies.ImageService;
-import com.androsov.itmo_blps.servicies.ResumeService;
-import com.androsov.itmo_blps.servicies.UserService;
+import com.androsov.itmo_blps.servicies.*;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.TypeDescriptor;
+import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,8 +30,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -34,68 +40,56 @@ import java.util.List;
 @AllArgsConstructor
 @Validated
 public class ResumeController {
-    ResumeService resumeService;
-    ImageService imageService;
-    EducationService educationService;
-    ResumeDtoToResumeConverter resumeDtoToResumeConverter;
-    ResumeToResumeDtoConverter resumeToResumeDtoConverter;
-    EducationDtoToEducationConverter educationDtoToEducationConverter;
-    EducationToEducationDtoConverter educationToEducationDtoConverter;
-    WorkExperienceRepository workExperienceRepository;
-    WorkExperienceDtoToWorkExperienceConverter workExperienceDtoToWorkExperienceConverter;
-    WorkExperienceToWorkExperienceDtoConverter workExperienceToWorkExperienceDtoConverter;
+    private ResumeService resumeService;
+    private EducationService educationService;
+    private ConversionService conversionService;
+    private WorkExperienceService workExperienceService;
+    private PortfolioService portfolioService;
 
     @PostMapping("/resume")
     @FailOnGetParams
-    public ResponseEntity<?> create(@Valid @RequestBody ResumeDto resumeDto,
-                                    Principal principal, HttpServletRequest request) {
-
-        // TODO: change this to auto-replace with username of current principal, if it worth it!
-        if (resumeDto.getUsername() == null || !resumeDto.getUsername().equals(principal.getName())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body("Current user has no rights to create resume for user " + resumeDto.getUsername());
-        }
-
-        Resume resume = resumeDtoToResumeConverter.convert(resumeDto);
-        Resume savedResume = resumeService.saveResume(resume); // TODO: add method like 'Create from DTO' with access-denied throwing
-
-        return new ResponseEntity<>(resumeToResumeDtoConverter.convert(savedResume), HttpStatus.CREATED);
+    public ResponseEntity<?> create(@Valid @RequestBody ResumeCreateRequest resumeRequest, HttpServletRequest httpServletRequest) {
+        Resume savedResume = resumeService.createFromRequest(resumeRequest);
+        return new ResponseEntity<>(conversionService.convert(savedResume, ResumeGetResponse.class), HttpStatus.CREATED);
     }
 
     @GetMapping("/resume")
     @FailOnGetParams
-    public ResponseEntity<List<ResumeDto>> getAll(Principal principal, HttpServletRequest request) {
-        List<Resume> resumes = resumeService.getAllForCurrentPrincipal(principal);
-        List<ResumeDto> resumeDtos = resumeToResumeDtoConverter.convert(resumes);
-        return new ResponseEntity<>(resumeDtos, HttpStatus.OK);
+    public ResponseEntity<List<ResumeCreateRequest>> getAll(HttpServletRequest request) {
+        List<Resume> resumes = resumeService.getAllForCurrentPrincipal();
+
+        List<ResumeCreateRequest> resumeGetResponseList = resumes.stream()
+                .map(resume -> conversionService.convert(resume, ResumeCreateRequest.class))
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(resumeGetResponseList, HttpStatus.OK);
     }
 
     @GetMapping("/resume/{id}")
     @FailOnGetParams
     public ResponseEntity<?> getById(@PathVariable Long id, HttpServletRequest request) {
         Resume resume = resumeService.getById(id);
-        ResumeDto resumeDto = resumeToResumeDtoConverter.convert(resume);
-        return new ResponseEntity<>(resumeDto, HttpStatus.OK);
+        ResumeGetResponse response = conversionService.convert(resume, ResumeGetResponse.class);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PatchMapping("/resume/{resumeId}/attach/image/{imageId}")
     @FailOnGetParams
     public ResponseEntity<?> attachImage(@PathVariable Long resumeId, @PathVariable Long imageId, HttpServletRequest request) throws EntityNotFoundException {
         Resume resume = resumeService.attachImageById(resumeId, imageId);
-        ResumeDto resumeDto = resumeToResumeDtoConverter.convert(resume);
-        return new ResponseEntity<>(resumeDto, HttpStatus.OK);
+        ResumeGetResponse response = conversionService.convert(resume, ResumeGetResponse.class);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/resume/{resumeId}/education")
     @FailOnGetParams
-    public ResponseEntity<?> addEducation(@PathVariable Long resumeId, @RequestBody EducationDto educationDto, HttpServletRequest request) throws EntityNotFoundException {
+    public ResponseEntity<?> addEducation(@PathVariable Long resumeId, @RequestBody @Valid EducationCreateRequest request, HttpServletRequest httpServletRequest) throws EntityNotFoundException {
         Resume resume = resumeService.getById(resumeId);  // this will guarantee that resume exists and principal has access to it
-        educationDto.setResumeId(resume.getId());
 
-        Education education = educationDtoToEducationConverter.convert(educationDto);
-        educationService.saveEducation(education);
+        Education education = educationService.createFromRequest(resume, request);
+        EducationGetResponse response = conversionService.convert(education, EducationGetResponse.class);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(educationToEducationDtoConverter.convert(education));
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/resume/{resumeId}/education")
@@ -104,45 +98,67 @@ public class ResumeController {
         Resume resume = resumeService.getById(resumeId); // this will guarantee that resume exists and principal has access to it
 
         List<Education> educations = educationService.getAllByResume(resume);
-        List<EducationDto> educationDtos = educationToEducationDtoConverter.convert(educations);
+        List<EducationGetResponse> educationsResponse = educations.stream()
+                .map(education -> conversionService.convert(education, EducationGetResponse.class))
+                .collect(Collectors.toList());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(educationDtos);
+        return ResponseEntity.status(HttpStatus.CREATED).body(educationsResponse);
     }
 
 
-    // TODO : сделать все также как и с едукэйшон, но с w-e и portfolio
-
-
+    // WORK EXPERIENCE
 
     @PostMapping("/resume/{resumeId}/work-experience")
     @FailOnGetParams
-    public ResponseEntity<?> addWorkExperience(@PathVariable Long resumeId, @RequestBody WorkExperienceDto workExperienceDto, HttpServletRequest request) throws EntityNotFoundException {
+    public ResponseEntity<?> addWorkExperience(@PathVariable Long resumeId, @RequestBody @Valid WorkExperienceCreateRequest request, HttpServletRequest httpServletRequest) throws EntityNotFoundException {
         Resume resume = resumeService.getById(resumeId);
 
-        if (!resumeService.currentPrincipalHasAccessToResumeById(resumeId)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body("Current user has no access to resume with id " + resumeId);
-        }
+        WorkExperience workExperience = workExperienceService.createFromRequest(resume, request); // Create WorkExperience the right way
+        WorkExperienceGetResponse response = conversionService.convert(workExperience, WorkExperienceGetResponse.class);
 
-        workExperienceDto.setResumeId(resumeId);
-        WorkExperience workExperience = workExperienceRepository.save(workExperienceDtoToWorkExperienceConverter.convert(workExperienceDto));
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(workExperienceToWorkExperienceDtoConverter.convert(workExperience));
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
 
     @GetMapping("/resume/{resumeId}/work-experience")
     @FailOnGetParams
     public ResponseEntity<?> getAllWorkExperiences(@PathVariable Long resumeId, HttpServletRequest request) throws EntityNotFoundException {
-        if (!resumeService.currentPrincipalHasAccessToResumeById(resumeId)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body("Current user has no access to resume with id " + resumeId);
-        }
+        Resume resume = resumeService.getById(resumeId);
 
-        List<WorkExperience> workExperiences = workExperienceRepository.getAllByResume(resumeService.getById(resumeId));
-        List<WorkExperienceDto> workExperienceDtos = workExperienceToWorkExperienceDtoConverter.convert(workExperiences);
+        List<WorkExperience> workExperiences = workExperienceService.getAllByResume(resume);
 
-        return ResponseEntity.status(HttpStatus.OK).body(workExperienceDtos);
+        List<WorkExperienceGetResponse> workExperienceResponses = workExperiences.stream()
+                .map(workExperience -> conversionService.convert(workExperience, WorkExperienceGetResponse.class))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.OK).body(workExperienceResponses);
     }
 
+    // PORTFOLIO
 
+    @PostMapping("/resume/{resumeId}/portfolio")
+    public ResponseEntity<?> addPortfolio(
+            @PathVariable Long resumeId,
+            @RequestBody @Valid PortfolioCreateRequest request,
+            HttpServletRequest httpServletRequest) throws EntityNotFoundException {
+
+        Resume resume = resumeService.getById(resumeId);
+        Portfolio portfolio = portfolioService.createFromRequest(resume, request);
+        PortfolioGetResponse response = conversionService.convert(portfolio, PortfolioGetResponse.class);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/resume/{resumeId}/portfolio")
+    public ResponseEntity<?> getAllPortfolios(@PathVariable Long resumeId, HttpServletRequest request) throws EntityNotFoundException {
+        Resume resume = resumeService.getById(resumeId);
+
+        List<Portfolio> portfolios = portfolioService.getAllByResume(resume);
+
+        List<PortfolioGetResponse> portfolioResponses = portfolios.stream()
+                .map(portfolio -> conversionService.convert(portfolio, PortfolioGetResponse.class))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.OK).body(portfolioResponses);
+    }
 }

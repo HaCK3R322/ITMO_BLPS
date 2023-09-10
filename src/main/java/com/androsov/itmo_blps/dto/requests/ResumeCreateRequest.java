@@ -1,13 +1,10 @@
-package com.androsov.itmo_blps.dto;
+package com.androsov.itmo_blps.dto.requests;
 
 import com.androsov.itmo_blps.annotations.NullOrNotBlank;
-import com.androsov.itmo_blps.entities.Image;
-import com.androsov.itmo_blps.entities.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
@@ -15,19 +12,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResumeDto {
-    @JsonProperty("id")
-    private Long id;
-
-    @JsonProperty("username")
-    private String username;
-
-    @JsonProperty("imageId")
-    @Null
-    private Long imageId;
-
-    // ================================================================================
-
+public class ResumeCreateRequest {
     @NotBlank(message = "Name is required")
     @Length(min = 2, max = 50, message = "Name should be in range of 2-50 characters")
     private String name;
@@ -70,7 +55,7 @@ public class ResumeDto {
 
     // =================================================================================
 
-    // work experience attached to resume by FK resume_id
+    // work experience and educations related to resume by having resume_id FK
 
     // =================================================================================
 

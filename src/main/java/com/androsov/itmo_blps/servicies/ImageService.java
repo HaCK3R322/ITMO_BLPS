@@ -16,7 +16,7 @@ import java.util.Optional;
 public class ImageService {
     private ImageRepository imageRepository;
 
-    public Image getById(Long id) throws EntityNotFoundException {
+    public Image getById(Long id) throws EntityNotFoundException, AccessDeniedException {
         Optional<Image> imageOptional = imageRepository.findById(id);
 
         if(imageOptional.isEmpty())

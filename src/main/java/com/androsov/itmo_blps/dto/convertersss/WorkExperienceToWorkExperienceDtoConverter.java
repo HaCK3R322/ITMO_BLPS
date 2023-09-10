@@ -1,8 +1,6 @@
-package com.androsov.itmo_blps.dto.converters;
+package com.androsov.itmo_blps.dto.convertersss;
 
-import com.androsov.itmo_blps.dto.EducationDto;
 import com.androsov.itmo_blps.dto.WorkExperienceDto;
-import com.androsov.itmo_blps.entities.resume.Education;
 import com.androsov.itmo_blps.entities.resume.WorkExperience;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;

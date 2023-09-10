@@ -1,12 +1,9 @@
-package com.androsov.itmo_blps.dto.converters;
+package com.androsov.itmo_blps.dto.convertersss;
 
-import com.androsov.itmo_blps.dto.EducationDto;
 import com.androsov.itmo_blps.dto.PortfolioDto;
 import com.androsov.itmo_blps.entities.Image;
-import com.androsov.itmo_blps.entities.resume.Education;
 import com.androsov.itmo_blps.entities.resume.Portfolio;
 import com.androsov.itmo_blps.entities.resume.Resume;
-import com.androsov.itmo_blps.repositories.EducationRepository;
 import com.androsov.itmo_blps.repositories.ImageRepository;
 import com.androsov.itmo_blps.repositories.PortfolioRepository;
 import com.androsov.itmo_blps.repositories.ResumeRepository;

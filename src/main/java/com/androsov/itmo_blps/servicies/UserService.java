@@ -4,6 +4,7 @@ import com.androsov.itmo_blps.entities.User;
 import com.androsov.itmo_blps.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,4 +33,8 @@ public class UserService {
         return userRepository.getByUsername(username);
     }
 
+    public User getCurrentUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return getByUsername(username);
+    }
 }
