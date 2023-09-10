@@ -1,16 +1,12 @@
 package com.androsov.itmo_blps.servicies;
 
-import com.androsov.itmo_blps.dto.VacancySearchParams;
+import com.androsov.itmo_blps.dto.requests.VacancySearchParams;
 import com.androsov.itmo_blps.dto.requests.VacancyCreateRequest;
 import com.androsov.itmo_blps.entities.User;
 import com.androsov.itmo_blps.entities.Vacancy;
-import com.androsov.itmo_blps.entities.resume.Resume;
-import com.androsov.itmo_blps.repositories.ResumeVacancyLinkRepository;
 import com.androsov.itmo_blps.repositories.VacancyRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;

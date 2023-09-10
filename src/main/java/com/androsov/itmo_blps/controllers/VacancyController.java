@@ -1,7 +1,7 @@
 package com.androsov.itmo_blps.controllers;
 
 import com.androsov.itmo_blps.annotations.FailOnGetParams;
-import com.androsov.itmo_blps.dto.VacancySearchParams;
+import com.androsov.itmo_blps.dto.requests.VacancySearchParams;
 import com.androsov.itmo_blps.dto.requests.VacancyCreateRequest;
 import com.androsov.itmo_blps.dto.responses.VacancyGetResponse;
 import com.androsov.itmo_blps.entities.Vacancy;
