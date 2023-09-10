@@ -22,10 +22,10 @@ public class ImageService {
         if(imageOptional.isEmpty())
             throw new EntityNotFoundException("Image with id " + id + " not found!");
 
-        if(!currentPrincipalHasAccessToImage(imageOptional.get())) {
+        if(!currentPrincipalHasAccessToImage(imageOptional.get())) { // TODO: role HR and admin can do that too
             throw new AccessDeniedException("User with username "
                     + SecurityContextHolder.getContext().getAuthentication().getName()
-                    + " has no access to resume with id " + id);
+                    + " has no access to image with id " + id);
         }
 
         return imageOptional.get();

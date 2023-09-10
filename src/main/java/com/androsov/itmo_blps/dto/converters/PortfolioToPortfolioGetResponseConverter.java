@@ -1,6 +1,7 @@
 package com.androsov.itmo_blps.dto.converters;
 
 import com.androsov.itmo_blps.dto.responses.PortfolioGetResponse;
+import com.androsov.itmo_blps.entities.Image;
 import com.androsov.itmo_blps.entities.resume.Portfolio;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,7 @@ public class PortfolioToPortfolioGetResponseConverter implements Converter<Portf
         response.setId(portfolio.getId());
         response.setResumeId(portfolio.getResume().getId());
         response.setDescription(portfolio.getDescription());
-        response.setImageId(portfolio.getPortfolioImage().getId()); // TODO: rename image field in response to portfolio image
+        response.setImageId(portfolio.getPortfolioImage().map(Image::getId).orElse(null));
         return response;
     }
 }

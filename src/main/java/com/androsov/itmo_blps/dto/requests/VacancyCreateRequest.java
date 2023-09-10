@@ -1,25 +1,22 @@
-package com.androsov.itmo_blps.dto;
+package com.androsov.itmo_blps.dto.requests;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
-@Data
-public class VacancyDto {
-
-    private Long id;
-
+@Getter
+@Setter
+@NoArgsConstructor
+public class VacancyCreateRequest {
     @NotBlank(message = "Name cannot be blank")
     @Size(max = 255, message = "Name cannot exceed {max} characters")
     @NotNull
     private String name;
-
-    @NotNull(message = "Username cannot be null")
-    @NotBlank(message = "Username cannot be blank")
-    private String username;
 
     @NotBlank(message = "Description cannot be blank")
     @Size(max = 2000, message = "Description cannot exceed {max} characters")
@@ -36,7 +33,7 @@ public class VacancyDto {
 
     @NotBlank(message = "Work experience cannot be blank")
     @Size(max = 255, message = "Work experience cannot exceed {max} characters")
-    private String workExperience;
+    private String requiredWorkExperience;
 
     @NotBlank(message = "Responsibilities cannot be blank")
     @Size(max = 2000, message = "Responsibilities cannot exceed {max} characters")
@@ -58,4 +55,3 @@ public class VacancyDto {
     @PositiveOrZero(message = "Maximum salary cannot be negative")
     private Integer salaryTo;
 }
-

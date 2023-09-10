@@ -1,27 +1,20 @@
 package com.androsov.itmo_blps.controllers;
 
 import com.androsov.itmo_blps.annotations.FailOnGetParams;
-import com.androsov.itmo_blps.dto.EducationDto;
 import com.androsov.itmo_blps.dto.requests.EducationCreateRequest;
 import com.androsov.itmo_blps.dto.requests.PortfolioCreateRequest;
 import com.androsov.itmo_blps.dto.requests.ResumeCreateRequest;
-import com.androsov.itmo_blps.dto.WorkExperienceDto;
-import com.androsov.itmo_blps.dto.convertersss.*;
 import com.androsov.itmo_blps.dto.requests.WorkExperienceCreateRequest;
-import com.androsov.itmo_blps.dto.responses.EducationGetResponse;
-import com.androsov.itmo_blps.dto.responses.PortfolioGetResponse;
-import com.androsov.itmo_blps.dto.responses.ResumeGetResponse;
-import com.androsov.itmo_blps.dto.responses.WorkExperienceGetResponse;
+import com.androsov.itmo_blps.dto.responses.*;
+import com.androsov.itmo_blps.entities.ResumeVacancyLink;
+import com.androsov.itmo_blps.entities.Vacancy;
 import com.androsov.itmo_blps.entities.resume.Education;
 import com.androsov.itmo_blps.entities.resume.Portfolio;
 import com.androsov.itmo_blps.entities.resume.Resume;
 import com.androsov.itmo_blps.entities.resume.WorkExperience;
-import com.androsov.itmo_blps.repositories.WorkExperienceRepository;
 import com.androsov.itmo_blps.servicies.*;
 import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.TypeDescriptor;
-import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -30,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +38,8 @@ public class ResumeController {
     private ConversionService conversionService;
     private WorkExperienceService workExperienceService;
     private PortfolioService portfolioService;
+    private VacancyService vacancyService;
+    private ResumeVacancyLinkService resumeVacancyLinkService;
 
     @PostMapping("/resume")
     @FailOnGetParams
@@ -137,6 +132,7 @@ public class ResumeController {
     // PORTFOLIO
 
     @PostMapping("/resume/{resumeId}/portfolio")
+    @FailOnGetParams
     public ResponseEntity<?> addPortfolio(
             @PathVariable Long resumeId,
             @RequestBody @Valid PortfolioCreateRequest request,
@@ -150,8 +146,9 @@ public class ResumeController {
     }
 
     @GetMapping("/resume/{resumeId}/portfolio")
+    @FailOnGetParams
     public ResponseEntity<?> getAllPortfolios(@PathVariable Long resumeId, HttpServletRequest request) throws EntityNotFoundException {
-        Resume resume = resumeService.getById(resumeId);
+        Resume resume = resumeService.getById(resumeId); // this will guarantee that resume exists and principal has access to it
 
         List<Portfolio> portfolios = portfolioService.getAllByResume(resume);
 
@@ -159,6 +156,17 @@ public class ResumeController {
                 .map(portfolio -> conversionService.convert(portfolio, PortfolioGetResponse.class))
                 .collect(Collectors.toList());
 
-        return ResponseEntity.status(HttpStatus.OK).body(portfolioResponses);
+        return ResponseEntity.ok().body(portfolioResponses);
+    }
+
+    @PostMapping("/resume/{resumeId}/attach-to-vacancy/{vacancyId}")
+    @FailOnGetParams
+    public ResponseEntity<?> attachToVacancy(@PathVariable Long resumeId, @PathVariable Long vacancyId, HttpServletRequest request) throws EntityNotFoundException {
+        Resume resume = resumeService.getById(resumeId); // this will guarantee that resume exists and principal has access to it
+        Vacancy vacancy = vacancyService.getById(vacancyId);
+
+        ResumeVacancyLink saved = resumeVacancyLinkService.create(resume, vacancy);
+
+        return ResponseEntity.ok().body(conversionService.convert(saved, ResumeVacancyLinkGetResponse.class));
     }
 }

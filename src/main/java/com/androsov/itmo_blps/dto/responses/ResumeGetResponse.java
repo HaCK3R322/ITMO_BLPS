@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResumeGetResponse {
+    private Long id;
     private Long userId;
     private Long resumeImageId;
 

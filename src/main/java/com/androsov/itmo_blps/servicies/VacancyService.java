@@ -1,11 +1,16 @@
 package com.androsov.itmo_blps.servicies;
 
 import com.androsov.itmo_blps.dto.VacancySearchParams;
+import com.androsov.itmo_blps.dto.requests.VacancyCreateRequest;
+import com.androsov.itmo_blps.entities.User;
 import com.androsov.itmo_blps.entities.Vacancy;
+import com.androsov.itmo_blps.entities.resume.Resume;
 import com.androsov.itmo_blps.repositories.ResumeVacancyLinkRepository;
 import com.androsov.itmo_blps.repositories.VacancyRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -16,24 +21,48 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class VacancyService {
     private VacancyRepository vacancyRepository;
-    private ResumeVacancyLinkRepository resumeVacancyLinkRepository;
     private EntityManager entityManager;
+    private UserService userService;
 
-    public Vacancy createVacancy(Vacancy vacancy) {
-        if (vacancyRepository.existsByUserAndName(vacancy.getUser(), vacancy.getName()))
-            throw new IllegalArgumentException("Vacancy with user '" + vacancy.getUser() +
-                    "' and name '" + vacancy.getName() + "' already exists.");
+    public Vacancy createFromRequest(VacancyCreateRequest request) throws IllegalArgumentException {
+        User user = userService.getCurrentUser();
+
+        if (vacancyRepository.existsByUserAndName(user, request.getName()))
+            throw new IllegalArgumentException("Vacancy with user '" + user.getUsername() +
+                    "' and name '" + request.getName() + "' already exists.");
+
+        Vacancy vacancy = new Vacancy();
+
+        vacancy.setUser(user);
+        vacancy.setName(request.getName());
+        vacancy.setDescription(request.getDescription());
+        vacancy.setCity(request.getCity());
+        vacancy.setAddress(request.getAddress());
+        vacancy.setRequiredWorkExperience(request.getRequiredWorkExperience());
+        vacancy.setResponsibilities(request.getResponsibilities());
+        vacancy.setRequirements(request.getRequirements());
+        vacancy.setConditions(request.getConditions());
+        vacancy.setSalaryFrom(request.getSalaryFrom());
+        vacancy.setSalaryTo(request.getSalaryTo());
 
         return vacancyRepository.save(vacancy);
     }
 
     public Vacancy getById(Long id) throws EntityNotFoundException {
-        return vacancyRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        Optional<Vacancy> vacancyOptional = vacancyRepository.findById(id);
+
+        if(vacancyOptional.isEmpty())
+            throw new EntityNotFoundException("Vacancy with id " + id + " not found!");
+
+        // TODO: if there will be admin, he cant do that shit
+
+        return vacancyOptional.get();
     }
 
     public boolean exists(Vacancy vacancy) {

@@ -3,15 +3,13 @@ package com.androsov.itmo_blps.entities.resume;
 import com.androsov.itmo_blps.annotations.NullOrNotBlank;
 import com.androsov.itmo_blps.entities.Image;
 import com.androsov.itmo_blps.entities.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Entity
 @AllArgsConstructor
@@ -29,10 +27,16 @@ public class Resume {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    // TODO: fix image - instead of data work around with links to images on file system
     @OneToOne(fetch = FetchType.LAZY) // lazy fetch type to not carry this big ass image everywhere
     @JoinColumn(name = "resume_image_id")
     @Null
+    @Getter(AccessLevel.NONE) // need a custom Image getter with Optional return for the null-safety
     private Image resumeImage;
+
+    public Optional<Image> getResumeImage() {
+        return Optional.ofNullable(resumeImage);
+    }
 
     // ================================================================================
 

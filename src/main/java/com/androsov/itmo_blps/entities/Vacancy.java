@@ -28,8 +28,8 @@ public class Vacancy {
     private String city;
     @Column(name = "address")
     private String address;
-    @Column(name = "work_experience")
-    private String workExperience;
+    @Column(name = "required_work_experience")
+    private String requiredWorkExperience;
     @Column(name = "responsibilities")
     private String responsibilities;
     @Column(name = "requirements")
