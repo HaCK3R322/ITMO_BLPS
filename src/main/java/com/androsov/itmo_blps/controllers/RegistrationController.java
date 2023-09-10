@@ -23,7 +23,7 @@ public class RegistrationController {
 
     @GetMapping("/register")
     public String registrationForm() {
-        return "POST here username and password duh";
+        return "POST here username, password, roleName in form";
     }
 
     @PostMapping("/register")

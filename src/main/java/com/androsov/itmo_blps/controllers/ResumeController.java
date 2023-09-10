@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +42,7 @@ public class ResumeController {
     private ResumeVacancyLinkService resumeVacancyLinkService;
 
     @PostMapping("/resume")
+    @PreAuthorize("hasAuthority('RESUME_CREATE')")
     @FailOnGetParams
     public ResponseEntity<?> create(@Valid @RequestBody ResumeCreateRequest resumeRequest, HttpServletRequest httpServletRequest) {
         Resume savedResume = resumeService.createFromRequest(resumeRequest);
@@ -48,6 +50,7 @@ public class ResumeController {
     }
 
     @GetMapping("/resume")
+    @PreAuthorize("hasAuthority('RESUME_VIEW')")
     @FailOnGetParams
     public ResponseEntity<List<ResumeGetResponse>> getAll(HttpServletRequest request) {
         List<Resume> resumes = resumeService.getAllForCurrentPrincipal();
@@ -60,6 +63,7 @@ public class ResumeController {
     }
 
     @GetMapping("/resume/{id}")
+    @PreAuthorize("hasAuthority('RESUME_VIEW')")
     @FailOnGetParams
     public ResponseEntity<?> getById(@PathVariable Long id, HttpServletRequest request) {
         Resume resume = resumeService.getById(id);
@@ -68,6 +72,7 @@ public class ResumeController {
     }
 
     @PatchMapping("/resume/{resumeId}/attach/image/{imageId}")
+    @PreAuthorize("hasAuthority('RESUME_MANIPULATION')")
     @FailOnGetParams
     public ResponseEntity<?> attachImage(@PathVariable Long resumeId, @PathVariable Long imageId, HttpServletRequest request) throws EntityNotFoundException {
         Resume resume = resumeService.attachImageById(resumeId, imageId);
@@ -76,6 +81,7 @@ public class ResumeController {
     }
 
     @PostMapping("/resume/{resumeId}/education")
+    @PreAuthorize("hasAuthority('RESUME_MANIPULATION')")
     @FailOnGetParams
     public ResponseEntity<?> addEducation(@PathVariable Long resumeId, @RequestBody @Valid EducationCreateRequest request, HttpServletRequest httpServletRequest) throws EntityNotFoundException {
         Resume resume = resumeService.getById(resumeId);  // this will guarantee that resume exists and principal has access to it
@@ -87,6 +93,7 @@ public class ResumeController {
     }
 
     @GetMapping("/resume/{resumeId}/education")
+    @PreAuthorize("hasAuthority('RESUME_VIEW')")
     @FailOnGetParams
     public ResponseEntity<?> getAllEducations(@PathVariable Long resumeId, HttpServletRequest request) throws EntityNotFoundException {
         Resume resume = resumeService.getById(resumeId); // this will guarantee that resume exists and principal has access to it
@@ -103,6 +110,7 @@ public class ResumeController {
     // WORK EXPERIENCE
 
     @PostMapping("/resume/{resumeId}/work-experience")
+    @PreAuthorize("hasAuthority('RESUME_MANIPULATION')")
     @FailOnGetParams
     public ResponseEntity<?> addWorkExperience(@PathVariable Long resumeId, @RequestBody @Valid WorkExperienceCreateRequest request, HttpServletRequest httpServletRequest) throws EntityNotFoundException {
         Resume resume = resumeService.getById(resumeId);
@@ -115,6 +123,7 @@ public class ResumeController {
 
 
     @GetMapping("/resume/{resumeId}/work-experience")
+    @PreAuthorize("hasAuthority('RESUME_VIEW')")
     @FailOnGetParams
     public ResponseEntity<?> getAllWorkExperiences(@PathVariable Long resumeId, HttpServletRequest request) throws EntityNotFoundException {
         Resume resume = resumeService.getById(resumeId);
@@ -131,6 +140,7 @@ public class ResumeController {
     // PORTFOLIO
 
     @PostMapping("/resume/{resumeId}/portfolio")
+    @PreAuthorize("hasAuthority('RESUME_MANIPULATION')")
     @FailOnGetParams
     public ResponseEntity<?> addPortfolio(
             @PathVariable Long resumeId,
@@ -145,6 +155,7 @@ public class ResumeController {
     }
 
     @GetMapping("/resume/{resumeId}/portfolio")
+    @PreAuthorize("hasAuthority('RESUME_VIEW')")
     @FailOnGetParams
     public ResponseEntity<?> getAllPortfolios(@PathVariable Long resumeId, HttpServletRequest request) throws EntityNotFoundException {
         Resume resume = resumeService.getById(resumeId); // this will guarantee that resume exists and principal has access to it
@@ -159,6 +170,7 @@ public class ResumeController {
     }
 
     @PostMapping("/resume/{resumeId}/attach-to-vacancy/{vacancyId}")
+    @PreAuthorize("hasAuthority('RESUME_MANIPULATION')")
     @FailOnGetParams
     public ResponseEntity<?> attachToVacancy(@PathVariable Long resumeId, @PathVariable Long vacancyId, HttpServletRequest request) throws EntityNotFoundException {
         Resume resume = resumeService.getById(resumeId); // this will guarantee that resume exists and principal has access to it

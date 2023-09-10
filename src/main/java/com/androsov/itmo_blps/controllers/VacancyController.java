@@ -13,6 +13,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +33,7 @@ public class VacancyController {
 
 
     @PostMapping(path = "/vacancy")
+    @PreAuthorize("hasAuthority('VACANCY_CREATE')")
     @FailOnGetParams
     public ResponseEntity<?> createVacancy(@RequestBody @Valid VacancyCreateRequest request,
                                                     HttpServletRequest httpServletRequest) {
@@ -40,6 +42,7 @@ public class VacancyController {
     }
 
     @GetMapping("/vacancy/search")
+    @PreAuthorize("hasAuthority('VACANCY_VIEW')")
     public ResponseEntity<?> search(@RequestBody VacancySearchParams params, @RequestParam Integer page) {
         final int pagesize = 2; // hardcoded this xd
 

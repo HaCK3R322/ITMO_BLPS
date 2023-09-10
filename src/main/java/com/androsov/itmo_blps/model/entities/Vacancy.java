@@ -17,7 +17,6 @@ public class Vacancy {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
-
     @Column(name = "user_id")
     private Long userId;
     @Column(name = "name")

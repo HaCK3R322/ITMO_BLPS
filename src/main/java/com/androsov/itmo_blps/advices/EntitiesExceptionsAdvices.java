@@ -5,11 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 
 @ControllerAdvice
 public class EntitiesExceptionsAdvices {
@@ -30,7 +32,7 @@ public class EntitiesExceptionsAdvices {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
-        return ResponseEntity.badRequest().body("JSON Parse error. Maybe unexpected fields? " + ex.getMessage());
+        return ResponseEntity.badRequest().body("JSON Parse error. Maybe unexpected fields?");
     }
 
     @ExceptionHandler(ConstraintViolationException.class)

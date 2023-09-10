@@ -33,23 +33,17 @@ public class XmlFileAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        // Load user details from the UserDetailsService
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-        // Check if the provided password matches the user's password
         if (passwordEncoder.matches(password, userDetails.getPassword())) {
             return new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(), userDetails.getAuthorities());
         } else {
-            // Passwords don't match, throw an AuthenticationException
             throw new BadCredentialsException("Invalid username or password");
         }
     }
 
-    // This method is used by Spring Security to determine if this provider supports the given authentication token.
     @Override
     public boolean supports(Class<?> authentication) {
-        // This provider only supports UsernamePasswordAuthenticationToken.
-
         Logger LOGGER = Logger.getLogger(XmlFileAuthenticationProvider.class.getName());
         LOGGER.log(Level.WARNING, "I think i am registrating... somebody checking be. Btw here is " +
                 "info about authentication: " + authentication.toString());
