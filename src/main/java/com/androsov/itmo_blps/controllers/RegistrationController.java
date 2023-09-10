@@ -1,13 +1,16 @@
 package com.androsov.itmo_blps.controllers;
 
+import com.androsov.itmo_blps.dto.requests.UserRegistrationRequest;
 import com.androsov.itmo_blps.entities.User;
 import com.androsov.itmo_blps.repositories.UserRepository;
 import com.androsov.itmo_blps.servicies.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -31,34 +35,40 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@RequestParam String username,
-                               @RequestParam String password) {
-        User user = new User(null, username, password);
-        if(userRepository.existsByUsername(user.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
-        }
+    public ResponseEntity<?> registerUser(@RequestParam String username,
+                                       @RequestParam String password,
+                                       @RequestParam String roleName) {
 
+        UserRegistrationRequest request = new UserRegistrationRequest(username,
+                password,
+                roleName);
 
-        LOGGER.log(Level.INFO, user.toString());
+        User user = userService.registerFromRequest(request);
 
-        userService.save(user);
-        return "Registered!";
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseBody
-    public String login(@ModelAttribute User user) throws Exception {
-        if(!userRepository.existsByUsername(user.getUsername())) {
+    public String login(@RequestParam String username,
+                        @RequestParam String password) throws Exception {
+        if(!userRepository.existsByUsername(username)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with that username not found");
         }
 
+        User user = userService.getByUsername(username);
+
         String dbPassword = userRepository.getByUsername(user.getUsername()).getPassword();
-        String gotPassword = user.getPassword();
 
         // check by BCryptPasswordEncoder
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        if (encoder.matches(gotPassword, dbPassword)) {
-            Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+        if (encoder.matches(password, dbPassword)) {
+            Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(),
+                    user.getPassword(),
+                    user.getRole().getPrivileges().stream()
+                            .map(privilege -> new SimpleGrantedAuthority(privilege.getName()))
+                            .collect(Collectors.toList()));
+
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } else {
             throw new Exception("Wrong password");

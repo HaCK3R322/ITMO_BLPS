@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -26,14 +27,14 @@ public class UserDetailsService implements org.springframework.security.core.use
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(),
                 user.getPassword(),
-                new ArrayList<AlwaysUser>()); // new ArrayList<AlwaysUser>() must be filled with roles
+                getAuthorities(user));
     }
 
+    private List<GrantedAuthority> getAuthorities(User user) {
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
-    private static class AlwaysUser implements GrantedAuthority {
-        @Override
-        public String getAuthority() {
-            return "ROLE_USER";
-        }
+        user.getRole().getPrivileges().forEach(privilege -> grantedAuthorities.add((GrantedAuthority) privilege::getName));
+
+        return grantedAuthorities;
     }
 }

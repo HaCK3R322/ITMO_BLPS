@@ -1,5 +1,6 @@
 package com.androsov.itmo_blps.advices;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
@@ -38,6 +39,11 @@ public class EntitiesExceptionsAdvices {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException ex) {
+        return ResponseEntity.badRequest().body("Access exceptions: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
         return ResponseEntity.badRequest().body("Access exceptions: " + ex.getMessage());
     }
 }
