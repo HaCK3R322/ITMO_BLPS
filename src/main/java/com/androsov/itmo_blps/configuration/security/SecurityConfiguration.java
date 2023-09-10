@@ -1,6 +1,6 @@
-package com.androsov.itmo_blps.configuration;
+package com.androsov.itmo_blps.configuration.security;
 
-import com.androsov.itmo_blps.servicies.UserDetailsService;
+import com.androsov.itmo_blps.servicies.DatabaseUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -20,31 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-class CsrfTokenResponseHeaderBindingFilter extends OncePerRequestFilter {
-    protected static final String REQUEST_ATTRIBUTE_NAME = "_csrf";
-    protected static final String RESPONSE_HEADER_NAME = "X-CSRF-HEADER";
-    protected static final String RESPONSE_PARAM_NAME = "X-CSRF-PARAM";
-    protected static final String RESPONSE_TOKEN_NAME = "X-CSRF-TOKEN";
-
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, javax.servlet.FilterChain filterChain) throws ServletException, IOException {
-        CsrfToken token = (CsrfToken) request.getAttribute(REQUEST_ATTRIBUTE_NAME);
-
-        if (token != null) {
-            response.setHeader(RESPONSE_HEADER_NAME, token.getHeaderName());
-            response.setHeader(RESPONSE_PARAM_NAME, token.getParameterName());
-            response.setHeader(RESPONSE_TOKEN_NAME, token.getToken());
-        }
-
-        filterChain.doFilter(request, response);
-    }
-}
-
 class SimpleCORSFilter extends OncePerRequestFilter {
-    private static final String localHost = "http://localhost:3000";
-    private static final String remoteHost = "http://ivanandrosovv.ru";
 
-    protected static final String ALLOWED_ORIGINS = remoteHost;
+    protected static final String ALLOWED_ORIGINS = "*";
 
     protected static final String ALLOWED_METHODS = "GET,POST,PUT,DELETE,OPTIONS,UPDATE";
     protected static final String ALLOWED_HEADERS = "X-Requested-With,Content-Type,Accept,Origin,Authorization,X-CSRF-TOKEN";
@@ -65,10 +42,10 @@ class SimpleCORSFilter extends OncePerRequestFilter {
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-    private final UserDetailsService userDetailsService;
+    private final DatabaseUserDetailsService databaseUserDetailsService;
 
-    public SecurityConfiguration(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public SecurityConfiguration(DatabaseUserDetailsService databaseUserDetailsService) {
+        this.databaseUserDetailsService = databaseUserDetailsService;
     }
 
     @Bean
@@ -111,7 +88,7 @@ public class SecurityConfiguration {
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        daoAuthenticationProvider.setUserDetailsService(databaseUserDetailsService);
         return daoAuthenticationProvider;
     }
 }
