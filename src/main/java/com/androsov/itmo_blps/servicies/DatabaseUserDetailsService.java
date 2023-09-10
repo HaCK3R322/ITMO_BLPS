@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Getter @Setter
-public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+public class DatabaseUserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
     UserRepository userRepository;
 
     @Override
