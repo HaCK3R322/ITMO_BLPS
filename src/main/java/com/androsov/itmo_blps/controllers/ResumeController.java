@@ -49,11 +49,11 @@ public class ResumeController {
 
     @GetMapping("/resume")
     @FailOnGetParams
-    public ResponseEntity<List<ResumeCreateRequest>> getAll(HttpServletRequest request) {
+    public ResponseEntity<List<ResumeGetResponse>> getAll(HttpServletRequest request) {
         List<Resume> resumes = resumeService.getAllForCurrentPrincipal();
 
-        List<ResumeCreateRequest> resumeGetResponseList = resumes.stream()
-                .map(resume -> conversionService.convert(resume, ResumeCreateRequest.class))
+        List<ResumeGetResponse> resumeGetResponseList = resumes.stream()
+                .map(resume -> conversionService.convert(resume, ResumeGetResponse.class))
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(resumeGetResponseList, HttpStatus.OK);

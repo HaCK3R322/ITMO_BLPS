@@ -1,8 +1,6 @@
 package com.androsov.itmo_blps.configuration.security;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -23,10 +21,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+@NoArgsConstructor
+@Getter
+@Setter
 public class XmlFileAuthenticationProvider implements AuthenticationProvider {
-    UserDetailsService userDetailsService;
-    PasswordEncoder passwordEncoder;
+    private UserDetailsService userDetailsService;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {

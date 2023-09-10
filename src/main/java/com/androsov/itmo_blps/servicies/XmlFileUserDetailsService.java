@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.catalina.users.AbstractUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import com.androsov.itmo_blps.model.User;
@@ -26,6 +27,8 @@ import java.util.stream.Collectors;
 @Setter
 @AllArgsConstructor
 public class XmlFileUserDetailsService implements UserDetailsService {
+
+    @Autowired
     UserService userService;
 
     @Override

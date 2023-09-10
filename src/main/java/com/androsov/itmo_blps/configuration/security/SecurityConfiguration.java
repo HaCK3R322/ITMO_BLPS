@@ -1,6 +1,7 @@
 package com.androsov.itmo_blps.configuration.security;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -46,6 +48,7 @@ public class SecurityConfiguration {
 
                 .and()
                 .formLogin()
+                .defaultSuccessUrl("/me")
 
                 .and()
                 .authorizeRequests()
@@ -60,23 +63,21 @@ public class SecurityConfiguration {
         return http.build();
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-//
-////    @Bean
-////    public DaoAuthenticationProvider daoAuthenticationProvider() {
-////        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-////        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-////        daoAuthenticationProvider.setUserDetailsService(databaseUserDetailsService);
-////        return daoAuthenticationProvider;
-////    }
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Bean
     public XmlFileAuthenticationProvider xmlFileAuthenticationProvider() {
-        return new XmlFileAuthenticationProvider();
+        XmlFileAuthenticationProvider provider = new XmlFileAuthenticationProvider();
+        provider.setPasswordEncoder(passwordEncoder());
+        provider.setUserDetailsService(userDetailsService);
+
+        return provider;
     }
 }
 
