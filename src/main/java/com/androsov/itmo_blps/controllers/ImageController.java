@@ -1,6 +1,7 @@
 package com.androsov.itmo_blps.controllers;
 
 import com.androsov.itmo_blps.annotations.FailOnGetParams;
+import com.androsov.itmo_blps.dto.responses.ErrorResponse;
 import com.androsov.itmo_blps.model.entities.Image;
 import com.androsov.itmo_blps.model.User;
 import com.androsov.itmo_blps.servicies.ImageService;
@@ -25,7 +26,7 @@ public class  ImageController {
 
     @PostMapping(path = "/image")
     @FailOnGetParams
-    public ResponseEntity<?> createImage(@RequestParam("file") MultipartFile file,
+    public ResponseEntity<?> createImage(@RequestParam("data") MultipartFile file,
                                          Principal principal,
                                          HttpServletRequest request) {
         User user = userService.getByUsername(principal.getName());
@@ -38,13 +39,13 @@ public class  ImageController {
                             && !contentType.equals("image/webp")
                     )
             ) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid file type \"" + contentType + "\". Only PNG and JPG files are allowed.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Invalid file type \"" + contentType + "\". Only PNG and JPG files are allowed."));
             }
 
             // Check file extension
             String originalFilename = file.getOriginalFilename();
             if (originalFilename == null || (!originalFilename.toLowerCase().endsWith(".png") && !originalFilename.toLowerCase().endsWith(".jpg"))) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid file extension. Only PNG and JPG files are allowed.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Invalid file extension. Only PNG and JPG files are allowed."));
             }
 
             // Get the bytes of the uploaded file
@@ -56,7 +57,7 @@ public class  ImageController {
             // Return a response entity with the saved Image object and appropriate headers
             return ResponseEntity.status(HttpStatus.CREATED).body(savedImage);
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Sorry! You fucked up somehow (but file seems to be png or jpg for sure!)");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Sorry! You fucked up somehow (but file seems to be png or jpg for sure!)"));
         }
     }
 

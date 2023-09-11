@@ -27,7 +27,7 @@ public class EducationService {
         education.setFaculty(request.getFaculty());
         education.setSpecialization(request.getSpecialization());
 
-        return education;
+        return educationRepository.save(education);
     }
 
 

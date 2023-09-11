@@ -34,6 +34,6 @@ public class WorkExperienceCreateRequest {
     private String achievements;
     @NotNull(message = "Start date is required")
     private LocalDate startDate;
-    @NullOrNotBlank(message = "Field must either be null or not blank")
+    @NotNull(message = "Field must not be null")
     private LocalDate endDate;
 }
