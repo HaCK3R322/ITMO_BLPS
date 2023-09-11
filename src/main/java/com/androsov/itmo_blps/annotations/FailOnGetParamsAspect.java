@@ -1,5 +1,6 @@
 package com.androsov.itmo_blps.annotations;
 
+import com.androsov.itmo_blps.dto.responses.ErrorResponse;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -25,7 +26,7 @@ public class FailOnGetParamsAspect {
         }
 
         if (!request.getParameterMap().isEmpty()) {
-            return ResponseEntity.badRequest().body("GET parameters are not allowed in this request.");
+            return ResponseEntity.badRequest().body(new ErrorResponse("GET parameters are not allowed in this request."));
         }
 
         return joinPoint.proceed();
