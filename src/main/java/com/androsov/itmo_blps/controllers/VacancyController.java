@@ -3,6 +3,7 @@ package com.androsov.itmo_blps.controllers;
 import com.androsov.itmo_blps.annotations.FailOnGetParams;
 import com.androsov.itmo_blps.dto.requests.VacancySearchParams;
 import com.androsov.itmo_blps.dto.requests.VacancyCreateRequest;
+import com.androsov.itmo_blps.dto.responses.ErrorResponse;
 import com.androsov.itmo_blps.dto.responses.VacancyGetResponse;
 import com.androsov.itmo_blps.model.entities.Vacancy;
 import com.androsov.itmo_blps.servicies.ResumeService;
@@ -28,7 +29,6 @@ public class VacancyController {
     VacancyService vacancyService;
 
     ResumeService resumeService;
-    ResumeVacancyLinkService resumeVacancyLinkService;
     ConversionService conversionService;
 
 
@@ -42,11 +42,17 @@ public class VacancyController {
     }
 
     @GetMapping("/vacancy/search")
-    @PreAuthorize("hasAuthority('VACANCY_VIEW')")
-    public ResponseEntity<?> search(@RequestBody VacancySearchParams params, @RequestParam Integer page) {
+    public ResponseEntity<?> search(@RequestBody VacancySearchParams params, @RequestParam Integer page, HttpServletRequest request) {
+        if (!request.getParameterMap().isEmpty()
+        && request.getParameterMap().containsKey("page")
+        && request.getParameterMap().size() > 1)
+        {
+            return ResponseEntity.badRequest().body(new ErrorResponse("Only allowed GET parameter is 'page'."));
+        }
+
         final int pagesize = 2; // hardcoded this xd
 
-        List<Vacancy> vacancies = vacancyService.searchByParams(params, PageRequest.of(page, pagesize));
+        List<Vacancy> vacancies = vacancyService.searchByParams(params, PageRequest.of(page - 1, pagesize));
 
         List<VacancyGetResponse> vacanciesGetResponse = vacancies.stream()
                 .map(vacancy -> conversionService.convert(vacancy, VacancyGetResponse.class))

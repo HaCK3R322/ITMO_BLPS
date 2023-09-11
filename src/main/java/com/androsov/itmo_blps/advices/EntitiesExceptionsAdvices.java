@@ -10,6 +10,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -32,7 +33,8 @@ public class EntitiesExceptionsAdvices {
             ConstraintViolationException.class,
             AccessDeniedException.class,
             DataIntegrityViolationException.class,
-            BadCredentialsException.class
+            BadCredentialsException.class,
+            MissingServletRequestParameterException.class
     })
     public ResponseEntity<ErrorResponse> handleException(Exception ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(ex.getMessage()));
@@ -41,6 +43,9 @@ public class EntitiesExceptionsAdvices {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
         String errorMessage = ex.getMessage();
+
+        Logger.getLogger(EntitiesExceptionsAdvices.class.getName()).log(Level.WARNING,
+                ex.getMessage());
 
         if(errorMessage == null)
             return ResponseEntity.badRequest().body(new ErrorResponse("Json parse unknown error."));
@@ -56,8 +61,12 @@ public class EntitiesExceptionsAdvices {
         errorMessage = "JSON Parse error.";
 
         if (unrecognizedFields.isEmpty()) {
+            List<String> errorsList = new ArrayList<>();
+            errorsList.add(ex.getMessage());
+
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorResponse(errorMessage + " Did you even sent something?"));
+                    .body(new ErrorResponse(errorMessage + " Here is big scary message in errors",
+                            errorsList));
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse(errorMessage, unrecognizedFields));

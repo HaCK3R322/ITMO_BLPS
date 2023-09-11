@@ -56,8 +56,6 @@ public class VacancyService {
         if(vacancyOptional.isEmpty())
             throw new EntityNotFoundException("Vacancy with id " + id + " not found!");
 
-        // TODO: if there will be admin, he cant do that shit
-
         return vacancyOptional.get();
     }
 
@@ -71,33 +69,32 @@ public class VacancyService {
     }
 
     public List<Vacancy> searchByParams(VacancySearchParams params, Pageable pageable) {
-        // create a criteria builder to construct the query
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-
-        // create a criteria query for the Vacancy entity
         CriteriaQuery<Vacancy> query = criteriaBuilder.createQuery(Vacancy.class);
-        Root<Vacancy> root = query.from(Vacancy.class);
 
-        // create a list of predicates based on the search parameters
+        Root<Vacancy> root = query.from(Vacancy.class);
         List<Predicate> predicates = new ArrayList<>();
 
-        // search for vacancies containing all the specified keywords
+        // Keywords search in name, description
         if (params.getKeyWords() != null && !params.getKeyWords().isEmpty()) {
             List<String> keywords = params.getKeyWords();
             Predicate[] keywordPredicates = keywords.stream()
+                    // WHERE (NAME LIKE %keywords%) OR (DESCRIPTION LIKE %keywords%)
                     .map(keyword -> criteriaBuilder.or(
                             criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + keyword.toLowerCase() + "%"),
                             criteriaBuilder.like(criteriaBuilder.lower(root.get("description")), "%" + keyword.toLowerCase() + "%")
-                    )).toArray(Predicate[]::new);
+                    ))
+                    .toArray(Predicate[]::new);
+
             predicates.add(criteriaBuilder.or(keywordPredicates));
         }
 
-        // search for vacancies in the specified cities
+        // If specified cities
         if (params.getCities() != null && !params.getCities().isEmpty()) {
             predicates.add(root.get("city").in(params.getCities()));
         }
 
-        // search for vacancies with a salary within the specified range
+        // Salary in specified range
         if (params.getSalaryFrom() != null && params.getSalaryTo() != null) {
             predicates.add(criteriaBuilder.between(
                     root.get("salaryFrom"), params.getSalaryFrom(), params.getSalaryTo()));
@@ -109,15 +106,15 @@ public class VacancyService {
                     root.get("salaryTo"), params.getSalaryTo()));
         }
 
-        // combine all the predicates with an "AND" operator
+        // All this combined by AND
         query.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
 
-        // execute the query and return the results
         List<Vacancy> results = entityManager
                 .createQuery(query)
                 .setFirstResult(pageable.getPageNumber() * pageable.getPageSize()) // offset
                 .setMaxResults(pageable.getPageSize())
                 .getResultList();
+
         return results;
     }
 
