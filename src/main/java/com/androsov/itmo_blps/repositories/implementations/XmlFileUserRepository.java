@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,6 +68,23 @@ public class XmlFileUserRepository implements UserRepository {
         return userList.stream()
                 .filter(u -> u.getId().equals(id))
                 .findFirst();
+    }
+
+    @Override
+    public User deleteById(Long userId) {
+        List<User> userList = getUsersFromXML();
+
+        Optional<User> userToDelete = userList.stream()
+                .filter(u -> u.getId().equals(userId))
+                .findFirst();
+
+        if (userToDelete.isPresent()) {
+            userList.remove(userToDelete.get());
+            saveUsersToXML(userList);
+            return userToDelete.get();
+        } else {
+            throw new EntityNotFoundException("User with ID " + userId + " not found for deletion.");
+        }
     }
 
     private List<User> getUsersFromXML() {

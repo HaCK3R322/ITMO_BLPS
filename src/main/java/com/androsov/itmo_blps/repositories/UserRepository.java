@@ -12,4 +12,6 @@ public interface UserRepository {
 
     Optional<User> getByUsername(String username);
     Optional<User> getById(Long id);
+
+    User deleteById(Long userId);
 }

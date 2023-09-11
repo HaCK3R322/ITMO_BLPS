@@ -17,9 +17,9 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class ResumeService {
-    ResumeRepository resumeRepository;
-    ImageService imageService;
-    UserService userService;
+    private ResumeRepository resumeRepository;
+    private ImageService imageService;
+    private UserService userService;
 
 
 
@@ -52,6 +52,10 @@ public class ResumeService {
     public List<Resume> getAllForCurrentPrincipal() {
         User user = userService.getCurrentUser();
         return resumeRepository.getAllByUserId(user.getId());
+    }
+
+    public List<Resume> getAllByUserId(Long userId) {
+        return resumeRepository.getAllByUserId(userId);
     }
 
     public Resume getById(Long id) throws EntityNotFoundException, AccessDeniedException {
@@ -91,5 +95,4 @@ public class ResumeService {
 
         return currentUserUsername.equals(resumeUsername);
     }
-
 }

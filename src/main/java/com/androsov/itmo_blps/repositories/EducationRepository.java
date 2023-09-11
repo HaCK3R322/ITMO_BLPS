@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface EducationRepository extends JpaRepository<Education, Long> {
     List<Education> getAllByResume(Resume resume);
+    List<Education> deleteAllByResume(Resume resume);
 }

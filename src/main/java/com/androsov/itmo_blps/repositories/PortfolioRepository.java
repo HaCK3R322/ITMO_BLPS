@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
     List<Portfolio> findAllByResume(Resume resume);
+
+    List<Portfolio> deleteAllByResume(Resume resume);
 }

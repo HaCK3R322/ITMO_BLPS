@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ResumeRepository extends JpaRepository<Resume, Long> {
     List<Resume> getAllByUserId(Long userId);
+
+    List<Resume> deleteAllByUserId(Long userId);
 }

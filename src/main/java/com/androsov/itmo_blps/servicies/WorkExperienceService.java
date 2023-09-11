@@ -7,6 +7,7 @@ import com.androsov.itmo_blps.repositories.WorkExperienceRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service

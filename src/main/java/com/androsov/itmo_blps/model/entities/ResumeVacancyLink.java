@@ -32,4 +32,5 @@ public class ResumeVacancyLink {
         this.resume = resume;
         this.vacancy = vacancy;
     }
+
 }

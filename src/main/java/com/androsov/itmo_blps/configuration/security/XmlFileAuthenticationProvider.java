@@ -44,10 +44,6 @@ public class XmlFileAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        Logger LOGGER = Logger.getLogger(XmlFileAuthenticationProvider.class.getName());
-        LOGGER.log(Level.WARNING, "I think i am registrating... somebody checking be. Btw here is " +
-                "info about authentication: " + authentication.toString());
-
         return true;
     }
 }

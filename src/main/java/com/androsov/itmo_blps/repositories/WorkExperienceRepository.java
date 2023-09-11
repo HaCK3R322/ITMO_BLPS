@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface WorkExperienceRepository extends JpaRepository<WorkExperience, Long> {
     List<WorkExperience> getAllByResume(Resume resume);
+    List<WorkExperience> deleteAllByResume(Resume resume);
 }
