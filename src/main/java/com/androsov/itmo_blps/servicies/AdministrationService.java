@@ -2,7 +2,11 @@ package com.androsov.itmo_blps.servicies;
 
 
 import com.androsov.itmo_blps.model.User;
+import com.androsov.itmo_blps.model.UserDeletingInfo;
+import com.androsov.itmo_blps.model.entities.Image;
 import com.androsov.itmo_blps.model.entities.ResumeVacancyLink;
+import com.androsov.itmo_blps.model.entities.resume.Education;
+import com.androsov.itmo_blps.model.entities.resume.Portfolio;
 import com.androsov.itmo_blps.model.entities.resume.Resume;
 import com.androsov.itmo_blps.model.entities.resume.WorkExperience;
 import com.androsov.itmo_blps.repositories.*;
@@ -14,61 +18,71 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
-@NoArgsConstructor
-@Getter
-@Setter
 @AllArgsConstructor
 public class AdministrationService {
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
     private ImageRepository imageRepository;
-    @Autowired
     private ResumeRepository resumeRepository;
-    @Autowired
     private EducationRepository educationRepository;
-    @Autowired
     private PortfolioRepository portfolioRepository;
-    @Autowired
     private WorkExperienceRepository workExperienceRepository;
-    @Autowired
     private ResumeVacancyLinkRepository resumeVacancyLinkRepository;
 
-    @Autowired UserService userService;
+    private UserService userService;
+
     @Transactional
-    public void deleteUserById(Long userId) throws AccessDeniedException {
+    public UserDeletingInfo deleteUserById(Long userId) throws AccessDeniedException {
+        UserDeletingInfo userDeletingInfo = new UserDeletingInfo();
+
         User user = userService.getCurrentUser();
+        userDeletingInfo.setDeletedUser(user);
 
-//        if(!user.getRole().getName().equals("ROLE_ADMIN"))
-//            throw new AccessDeniedException("Only users with role Admin can manage other users");
+        // additional hard-coded check
+        if(!user.getRole().getName().equals("ROLE_ADMIN"))
+            throw new AccessDeniedException("Only users with role ROLE_ADMIN has access to user deleting.");
 
-        imageRepository.deleteAllByUserId(userId);
+        List<Image> deletedImages = imageRepository.deleteAllByUserId(userId);
+        userDeletingInfo.setDeletedImages(deletedImages);
 
         List<Resume> userResumes = resumeRepository.getAllByUserId(userId);
 
+        List<Education> deletedEducations = new ArrayList<>();
         userResumes.forEach(resume -> {
-            educationRepository.deleteAllByResume(resume);
+            deletedEducations.addAll(educationRepository.deleteAllByResume(resume));
         });
+        userDeletingInfo.setDeletedEducations(deletedEducations);
 
+        List<Portfolio> deletedPortfolios = new ArrayList<>();
         userResumes.forEach(resume -> {
-            portfolioRepository.deleteAllByResume(resume);
+            deletedPortfolios.addAll(portfolioRepository.deleteAllByResume(resume));
         });
+        userDeletingInfo.setDeletedPortfolios(deletedPortfolios);
 
+        List<WorkExperience> deletedWorkExperiences = new ArrayList<>();
         userResumes.forEach(resume -> {
-            workExperienceRepository.deleteAllByResume(resume);
+            deletedWorkExperiences.addAll(workExperienceRepository.deleteAllByResume(resume));
         });
+        userDeletingInfo.setDeletedWorkExperiences(deletedWorkExperiences);
 
+        List<ResumeVacancyLink> deletedResumeVacancyLinks = new ArrayList<>();
         userResumes.forEach(resume -> {
-            resumeVacancyLinkRepository.deleteAllByResume(resume);
+            deletedResumeVacancyLinks.addAll(resumeVacancyLinkRepository.deleteAllByResume(resume));
         });
+        userDeletingInfo.setDeletedResumeVacancyLinks(deletedResumeVacancyLinks);
 
-        resumeRepository.deleteAllByUserId(userId);
+        List<Resume> deletedResumes = resumeRepository.deleteAllByUserId(userId);
+        userDeletingInfo.setDeletedResumes(deletedResumes);
 
         userRepository.deleteById(userId);
+
+//        throw new EntityNotFoundException("Exception at the end of transaction!");
+
+        return userDeletingInfo;
     }
 }
