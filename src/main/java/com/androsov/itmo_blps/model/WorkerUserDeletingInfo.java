@@ -1,6 +1,5 @@
 package com.androsov.itmo_blps.model;
 
-import com.androsov.itmo_blps.model.User;
 import com.androsov.itmo_blps.model.entities.Image;
 import com.androsov.itmo_blps.model.entities.ResumeVacancyLink;
 import com.androsov.itmo_blps.model.entities.resume.Education;
@@ -14,7 +13,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Data
-public class UserDeletingInfo {
+public class WorkerUserDeletingInfo {
      private User deletedUser;
      private List<Image> deletedImages;
      private List<Education> deletedEducations;

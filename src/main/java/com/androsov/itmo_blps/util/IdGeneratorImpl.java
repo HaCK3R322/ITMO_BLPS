@@ -50,4 +50,10 @@ public class IdGeneratorImpl implements IdGenerator {
         saveLastUsedIdToFile();
         return lastUsedId;
     }
+
+    @Override
+    public void setLastId(Long newLastId) {
+        lastUsedId = newLastId;
+        saveLastUsedIdToFile();
+    }
 }
