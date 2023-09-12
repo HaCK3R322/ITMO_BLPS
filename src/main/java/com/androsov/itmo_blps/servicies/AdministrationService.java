@@ -17,9 +17,11 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,8 +82,6 @@ public class AdministrationService {
         userDeletingInfo.setDeletedResumes(deletedResumes);
 
         userRepository.deleteById(userId);
-
-//        throw new EntityNotFoundException("Exception at the end of transaction!");
 
         return userDeletingInfo;
     }
