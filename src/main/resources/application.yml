@@ -1,4 +1,4 @@
 user:
   xml:
-    file: "C:/Users/Иван/Desktop/БЛПС/Лаба 2/users.xml"
-    lastUsedId: "C:/Users/Иван/Desktop/БЛПС/Лаба 2/last-used-id.txt"
+    file: "users.xml"
+    lastUsedId: "last-used-id.txt"

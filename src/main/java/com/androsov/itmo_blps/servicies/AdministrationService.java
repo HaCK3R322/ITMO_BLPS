@@ -2,7 +2,7 @@ package com.androsov.itmo_blps.servicies;
 
 
 import com.androsov.itmo_blps.model.User;
-import com.androsov.itmo_blps.model.UserDeletingInfo;
+import com.androsov.itmo_blps.model.WorkerUserDeletingInfo;
 import com.androsov.itmo_blps.model.entities.Image;
 import com.androsov.itmo_blps.model.entities.ResumeVacancyLink;
 import com.androsov.itmo_blps.model.entities.resume.Education;
@@ -11,14 +11,8 @@ import com.androsov.itmo_blps.model.entities.resume.Resume;
 import com.androsov.itmo_blps.model.entities.resume.WorkExperience;
 import com.androsov.itmo_blps.repositories.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
@@ -39,18 +33,18 @@ public class AdministrationService {
     private UserService userService;
 
     @Transactional
-    public UserDeletingInfo deleteUserById(Long userId) throws AccessDeniedException {
-        UserDeletingInfo userDeletingInfo = new UserDeletingInfo();
+    public WorkerUserDeletingInfo deleteWorkerUserById(Long userId) throws AccessDeniedException {
+        WorkerUserDeletingInfo workerUserDeletingInfo = new WorkerUserDeletingInfo();
 
         User user = userService.getCurrentUser();
-        userDeletingInfo.setDeletedUser(user);
+        workerUserDeletingInfo.setDeletedUser(user);
 
         // additional hard-coded check
         if(!user.getRole().getName().equals("ROLE_ADMIN"))
             throw new AccessDeniedException("Only users with role ROLE_ADMIN has access to user deleting.");
 
         List<Image> deletedImages = imageRepository.deleteAllByUserId(userId);
-        userDeletingInfo.setDeletedImages(deletedImages);
+        workerUserDeletingInfo.setDeletedImages(deletedImages);
 
         List<Resume> userResumes = resumeRepository.getAllByUserId(userId);
 
@@ -58,31 +52,31 @@ public class AdministrationService {
         userResumes.forEach(resume -> {
             deletedEducations.addAll(educationRepository.deleteAllByResume(resume));
         });
-        userDeletingInfo.setDeletedEducations(deletedEducations);
+        workerUserDeletingInfo.setDeletedEducations(deletedEducations);
 
         List<Portfolio> deletedPortfolios = new ArrayList<>();
         userResumes.forEach(resume -> {
             deletedPortfolios.addAll(portfolioRepository.deleteAllByResume(resume));
         });
-        userDeletingInfo.setDeletedPortfolios(deletedPortfolios);
+        workerUserDeletingInfo.setDeletedPortfolios(deletedPortfolios);
 
         List<WorkExperience> deletedWorkExperiences = new ArrayList<>();
         userResumes.forEach(resume -> {
             deletedWorkExperiences.addAll(workExperienceRepository.deleteAllByResume(resume));
         });
-        userDeletingInfo.setDeletedWorkExperiences(deletedWorkExperiences);
+        workerUserDeletingInfo.setDeletedWorkExperiences(deletedWorkExperiences);
 
         List<ResumeVacancyLink> deletedResumeVacancyLinks = new ArrayList<>();
         userResumes.forEach(resume -> {
             deletedResumeVacancyLinks.addAll(resumeVacancyLinkRepository.deleteAllByResume(resume));
         });
-        userDeletingInfo.setDeletedResumeVacancyLinks(deletedResumeVacancyLinks);
+        workerUserDeletingInfo.setDeletedResumeVacancyLinks(deletedResumeVacancyLinks);
 
         List<Resume> deletedResumes = resumeRepository.deleteAllByUserId(userId);
-        userDeletingInfo.setDeletedResumes(deletedResumes);
+        workerUserDeletingInfo.setDeletedResumes(deletedResumes);
 
         userRepository.deleteById(userId);
 
-        return userDeletingInfo;
+        return workerUserDeletingInfo;
     }
 }
