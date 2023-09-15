@@ -17,7 +17,6 @@ import java.util.List;
 @AllArgsConstructor
 public class WorkerUserDeletingInfoToWorkerUserDeletingInfoResponseConverter
         implements Converter<WorkerUserDeletingInfo, WorkerUserDeletingInfoResponse> {
-
     private final Converter<Education, EducationGetResponse> educationConverter;
     private final Converter<WorkExperience, WorkExperienceGetResponse> workExperienceConverter;
     private final Converter<Portfolio, PortfolioGetResponse> portfolioConverter;
