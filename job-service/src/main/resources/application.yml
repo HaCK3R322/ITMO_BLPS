@@ -1,4 +1,42 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+
+spring:
+  datasource:
+    url: jdbc:postgresql://193.218.142.195:5432/blps_lab1
+    username: postgres
+    password: intmain321890
+
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  sql:
+    init:
+      mode: always
+
+  http:
+    multipart:
+      max-file-size: 2mb
+      max-request-size: 2mb
+
+# some custom things
 user:
   xml:
     file: "users.xml"
     lastUsedId: "last-used-id.txt"
+
+logging:
+  level:
+    org.springframework.validation: DEBUG
+
+paging:
+  pagesize: 2
