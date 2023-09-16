@@ -1,46 +1,66 @@
-version: '3'
-
-networks:
-  kafka-net:
-    driver: bridge
+version: "3.7"
 
 services:
   zookeeper:
-    image: zookeeper
+    image: zookeeper:3.7.0
     container_name: zookeeper
-    ports:
-      - "2181:2181"
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
+    restart: "no"
     networks:
       - kafka-net
+    ports:
+      - "2181:2181"
 
   kafka:
-    image: bitnami/kafka
+    image: obsidiandynamics/kafka
     container_name: kafka
-    depends_on:
-      - zookeeper
+    restart: "no"
+    networks:
+      - kafka-net
     ports:
       - "9092:9092"
     environment:
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: DOCKER_INTERNAL:PLAINTEXT,DOCKER_EXTERNAL:PLAINTEXT
+      KAFKA_LISTENERS: DOCKER_INTERNAL://:29092,DOCKER_EXTERNAL://:9092
+      KAFKA_ADVERTISED_LISTENERS: DOCKER_INTERNAL://kafka:29092,DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: DOCKER_INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
       KAFKA_BROKER_ID: 1
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
-      KAFKA_DELETE_TOPIC_ENABLE: "true"
-      # zookeeper mode required env
-      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
-    networks:
-      - kafka-net
+    depends_on:
+      - zookeeper
 
   kafdrop:
     image: obsidiandynamics/kafdrop
     container_name: kafdrop
+    restart: "no"
     networks:
       - kafka-net
     ports:
       - "9000:9000"
     environment:
-      KAFKA_BROKERCONNECT: "kafka:9092"
+      KAFKA_BROKERCONNECT: "kafka:29092"
     depends_on:
-      - kafka
+      - "kafka"
+
+  postgres_main:
+    container_name: postgres_main
+    ports:
+      - "5500:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "qwerty"
+    image: postgres:15.4
+
+  postgres_consumer:
+    container_name: postgres_consumer
+    ports:
+      - "5501:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "qwerty"
+    image: postgres:15.4
+
+networks:
+  kafka-net:
+    name: kafka-net
+    driver: bridge
