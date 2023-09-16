@@ -11,7 +11,7 @@
     <groupId>com.androsov</groupId>
     <artifactId>ITMO_BLPS</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ITMO_BLPS_lab1</name>
+    <name>ITMO_BLPS_JOB_SERVICE</name>
     <description>ITMO_BLPS_lab1</description>
     <properties>
         <java.version>17</java.version>
