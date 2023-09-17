@@ -22,7 +22,7 @@ public class UserCheckService {
     private final SuspiciousUserRepository suspiciousUserRepository;
 
     public void checkUser(UserToCheckMessage user) {
-        // suspicious if: ФИО + дата рождения, ИЛИ ФИО + город. + телефон
+        // suspicious if: (ФИО + дата рождения ИЛИ ФИО + город) + телефон
 
         SuspiciousUser suspiciousUser = new SuspiciousUser();
         suspiciousUser.setUserId(user.getUserId());
