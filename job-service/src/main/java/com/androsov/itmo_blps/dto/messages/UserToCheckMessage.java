@@ -16,4 +16,5 @@ public class UserToCheckMessage {
     private String patronymic;
     private LocalDate dateOfBirth;
     private String city;
+    private String number;
 }

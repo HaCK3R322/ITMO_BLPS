@@ -64,6 +64,7 @@ public class ResumeService {
         userToCheckMessage.setPatronymic(resume.getPatronymic());
         userToCheckMessage.setDateOfBirth(resume.getDateOfBirth());
         userToCheckMessage.setCity(resume.getCity());
+        userToCheckMessage.setNumber(resume.getPhoneNumber());
 
         try {
             String message = objectMapper.writeValueAsString(userToCheckMessage);
