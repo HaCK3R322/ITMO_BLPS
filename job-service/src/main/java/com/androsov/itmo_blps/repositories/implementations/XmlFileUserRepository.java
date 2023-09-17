@@ -87,6 +87,12 @@ public class XmlFileUserRepository implements UserRepository {
         }
     }
 
+    @Override
+    public Long count() {
+        List<User> userList = getUsersFromXML();
+        return (long) userList.size();
+    }
+
     private List<User> getUsersFromXML() {
         File file = new File(xmlFilePath);
         if (!file.exists()) {

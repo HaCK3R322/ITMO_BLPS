@@ -1,7 +1,6 @@
 package com.androsov.itmo_blps.repositories;
 
 import com.androsov.itmo_blps.model.User;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -14,4 +13,5 @@ public interface UserRepository {
     Optional<User> getById(Long id);
 
     User deleteById(Long userId);
+    Long count();
 }
