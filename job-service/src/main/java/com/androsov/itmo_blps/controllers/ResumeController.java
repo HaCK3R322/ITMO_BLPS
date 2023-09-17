@@ -33,13 +33,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Validated
 public class ResumeController {
-    private ResumeService resumeService;
-    private EducationService educationService;
-    private ConversionService conversionService;
-    private WorkExperienceService workExperienceService;
-    private PortfolioService portfolioService;
-    private VacancyService vacancyService;
-    private ResumeVacancyLinkService resumeVacancyLinkService;
+    private final ResumeService resumeService;
+    private final EducationService educationService;
+    private final ConversionService conversionService;
+    private final WorkExperienceService workExperienceService;
+    private final PortfolioService portfolioService;
+    private final VacancyService vacancyService;
+    private final ResumeVacancyLinkService resumeVacancyLinkService;
 
     @PostMapping("/resume")
     @PreAuthorize("hasAuthority('RESUME_CREATE')")
