@@ -27,13 +27,19 @@ public class UserCheckService {
         SuspiciousUser suspiciousUser = new SuspiciousUser();
         suspiciousUser.setUserId(user.getUserId());
 
-        Optional<Criminal> criminalOptional = criminalRepository.findByNameAndSurnameAndPatronymicAndDateOfBirth(
+        criminalRepository.findByNameAndSurnameAndPatronymicAndDateOfBirth(
                 user.getName(),
                 user.getSurname(),
                 user.getPatronymic(),
                 user.getDateOfBirth()
-        );
-        criminalOptional.ifPresent(suspiciousUser::setAssociatedCriminal);
+        ).ifPresent(suspiciousUser::setAssociatedCriminal);
+
+        criminalRepository.findByNameAndSurnameAndPatronymicAndCity(
+                user.getName(),
+                user.getSurname(),
+                user.getPatronymic(),
+                user.getCity()
+        ).ifPresent(suspiciousUser::setAssociatedCriminal);
 
         Optional<CriminalPhone> criminalPhone = criminalPhoneRepository.findCriminalPhoneByNumber(
                 user.getNumber()
