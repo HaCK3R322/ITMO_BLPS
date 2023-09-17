@@ -2,6 +2,7 @@ package com.androsov.itmo_blps.configuration;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -17,14 +18,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class KafkaConfiguration {
-
     private final KafkaProperties kafkaProperties;
 
     @Bean
     public ProducerFactory<String, String> producerFactory() {
         Map<String, Object> properties = kafkaProperties.buildProducerProperties();
+        // buildProducerProperties -> standard props, such as bootstrap server = localhost:9092
         return new DefaultKafkaProducerFactory<>(properties);
     }
 
@@ -34,10 +35,10 @@ public class KafkaConfiguration {
     }
 
     @Bean
-    public NewTopic topic() {
+    public NewTopic resumeCheckTopic() {
         int partitions = 1;
         short replicas = 1;
 
-        return new NewTopic("test", partitions, replicas);
+        return new NewTopic("user-check", partitions, replicas);
     }
 }

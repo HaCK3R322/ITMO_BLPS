@@ -46,6 +46,11 @@ public class ResumeController {
     @FailOnGetParams
     public ResponseEntity<?> create(@Valid @RequestBody ResumeCreateRequest resumeRequest, HttpServletRequest httpServletRequest) {
         Resume savedResume = resumeService.createFromRequest(resumeRequest);
+
+        // MODERATION
+        resumeService.sendUserToCheck(savedResume);
+        // ==========
+
         return new ResponseEntity<>(conversionService.convert(savedResume, ResumeGetResponse.class), HttpStatus.CREATED);
     }
 
