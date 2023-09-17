@@ -28,6 +28,9 @@ spring:
       max-file-size: 2mb
       max-request-size: 2mb
 
+  stats:
+    sleep-time: 1
+
 # some custom things
 user:
   xml:
