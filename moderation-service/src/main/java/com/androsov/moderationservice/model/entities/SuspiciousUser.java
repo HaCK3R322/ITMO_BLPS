@@ -16,11 +16,11 @@ public class SuspiciousUser {
     @Id
     private Long userId;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "associated_criminal_id")
     private Criminal associatedCriminal;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "criminal_phone_id")
     private CriminalPhone criminalPhone;
 }

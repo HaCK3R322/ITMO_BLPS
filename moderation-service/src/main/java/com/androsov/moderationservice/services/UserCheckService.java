@@ -47,6 +47,8 @@ public class UserCheckService {
         criminalPhone.ifPresent(suspiciousUser::setCriminalPhone);
 
         if(suspiciousUser.getAssociatedCriminal() != null || suspiciousUser.getCriminalPhone() != null) {
+            Logger.getLogger(UserCheckService.class.getName())
+                            .log(Level.INFO, "Suspicious user detected! id = " + suspiciousUser.getUserId());
             suspiciousUserRepository.save(suspiciousUser);
         }
     }

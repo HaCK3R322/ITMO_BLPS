@@ -9,6 +9,9 @@ spring:
     url: jdbc:postgresql://193.218.142.195:5432/blps_lab1
     username: postgres
     password: intmain321890
+#   url: jdbc:postgresql://pg:5432/studs
+#   username: s309629
+#   password: aMLiRX06Jmx2udY4
 
   jpa:
     database: POSTGRESQL
@@ -22,3 +25,7 @@ spring:
   sql:
     init:
       mode: always
+
+  kafka:
+    bootstrap-servers: 193.218.142.195:9093
+    group-id: user-check-group

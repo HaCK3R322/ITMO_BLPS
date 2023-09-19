@@ -25,6 +25,7 @@ public class KafkaConfiguration {
     @Bean
     public ProducerFactory<String, String> producerFactory() {
         Map<String, Object> properties = kafkaProperties.buildProducerProperties();
+        properties.put("bootstrap.servers", "193.218.142.195:9092");
         // buildProducerProperties -> standard props, such as bootstrap server = localhost:9092
         return new DefaultKafkaProducerFactory<>(properties);
     }

@@ -29,7 +29,7 @@ spring:
       max-request-size: 2mb
 
   stats:
-    sleep-time: 1
+    sleep-time: 60
 
 # some custom things
 user:
