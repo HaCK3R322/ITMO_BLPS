@@ -15,7 +15,6 @@ import lombok.Setter;
 public class SuspiciousUser {
     @Id
     private Long userId;
-    private Integer suspiciousLevel;
 
     @OneToOne
     @JoinColumn(name = "associated_criminal_id")
