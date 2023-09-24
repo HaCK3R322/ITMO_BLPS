@@ -31,6 +31,10 @@ spring:
   stats:
     sleep-time: 60
 
+
+  camunda:
+    bpm:
+      default-serialization-format: application/json
 # some custom things
 user:
   xml:

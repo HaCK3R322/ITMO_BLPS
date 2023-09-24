@@ -56,6 +56,7 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers("/register", "/login").permitAll()
                 .antMatchers("/vacancy/search").permitAll()
+                .antMatchers("/camunda/**").permitAll()
                 .antMatchers("/**").authenticated()
                 .anyRequest().authenticated()
 

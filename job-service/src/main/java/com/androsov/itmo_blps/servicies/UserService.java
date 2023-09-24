@@ -58,7 +58,7 @@ public class UserService {
         return optionalUser.get();
     }
 
-    public User getCurrentUser() {
+    public User getCurrentUser() throws EntityNotFoundException {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return getByUsername(username);
     }
