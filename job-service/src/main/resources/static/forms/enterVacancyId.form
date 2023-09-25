@@ -1,0 +1,29 @@
+{
+  "components": [
+    {
+      "label": "Vacancy id",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1iogvgk",
+        "columns": null
+      },
+      "id": "Field_1wqobhb",
+      "key": "vacancyId",
+      "validate": {
+        "required": true,
+        "pattern": "^[0-9]+$",
+        "minLength": 1,
+        "maxLength": 18
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_00z1sdy",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.15.1"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 10
+}
