@@ -1,0 +1,95 @@
+{
+  "components": [
+    {
+      "label": "Level",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0xk5e1c",
+        "columns": null
+      },
+      "id": "Field_0mfjwt6",
+      "key": "level",
+      "validate": {
+        "required": true,
+        "pattern": "^(Preschool|Initial general|Average total|Secondary vocational|Bachelor's degree|specialist's degreemaster's degree|higher qualification)$"
+      }
+    },
+    {
+      "label": "Form",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_063glan",
+        "columns": null
+      },
+      "id": "Field_0mbync8",
+      "key": "form",
+      "validate": {
+        "pattern": "^(Full-time|Part-time)$",
+        "required": true
+      }
+    },
+    {
+      "label": "End date",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0bbpggj",
+        "columns": null
+      },
+      "id": "Field_1m3kde2",
+      "key": "endDate",
+      "description": "When it ended?",
+      "validate": {
+        "required": true,
+        "pattern": "\\d{4}-\\d{2}-\\d{2}"
+      }
+    },
+    {
+      "label": "University name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0twwxm2",
+        "columns": null
+      },
+      "id": "Field_0iry1w7",
+      "key": "universityName",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Faculty",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1igkwex",
+        "columns": null
+      },
+      "id": "Field_0pm9ma8",
+      "key": "faculty",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Specialization",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_17nhsgd",
+        "columns": null
+      },
+      "id": "Field_0tf98iy",
+      "key": "specialization",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_14llfdl",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.15.1"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 10
+}

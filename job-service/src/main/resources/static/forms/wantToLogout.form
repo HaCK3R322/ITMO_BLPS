@@ -1,0 +1,34 @@
+{
+  "components": [
+    {
+      "values": [
+        {
+          "label": "Yes",
+          "value": "true"
+        },
+        {
+          "label": "No",
+          "value": "false"
+        }
+      ],
+      "label": "Are you sure you want to logout?",
+      "type": "select",
+      "layout": {
+        "row": "Row_1cujyjr",
+        "columns": null
+      },
+      "id": "Field_021vccn",
+      "key": "wantsToLogout",
+      "defaultValue": "true"
+    }
+  ],
+  "type": "default",
+  "id": "Form_0bkty9i",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.15.1"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 10
+}

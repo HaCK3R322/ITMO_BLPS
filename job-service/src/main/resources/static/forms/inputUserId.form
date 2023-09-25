@@ -1,0 +1,28 @@
+{
+  "components": [
+    {
+      "label": "User id",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1efrucm",
+        "columns": null
+      },
+      "id": "Field_1fz9e5l",
+      "key": "userId",
+      "description": "Enter user id to delete",
+      "validate": {
+        "required": true,
+        "pattern": "^[0-9]+$"
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_10ttcp0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.15.1"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 10
+}

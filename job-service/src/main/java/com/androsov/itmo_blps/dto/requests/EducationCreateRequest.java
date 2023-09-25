@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class EducationCreateRequest {
     @NotBlank(message = "Education level must not be blank")
     @Pattern(regexp = "^(" +

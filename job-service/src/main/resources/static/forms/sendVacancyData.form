@@ -1,0 +1,143 @@
+{
+  "components": [
+    {
+      "label": "Name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1mp5wkz",
+        "columns": null
+      },
+      "id": "Field_1v62tmb",
+      "key": "name",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Description",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1gzcnb0",
+        "columns": null
+      },
+      "id": "Field_0v5ej7p",
+      "key": "description",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "City",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_046nsxf",
+        "columns": null
+      },
+      "id": "Field_0ehptb0",
+      "key": "city",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Address",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1xasmp1",
+        "columns": null
+      },
+      "id": "Field_1m0jcig",
+      "key": "address",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Required Work Experience",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_06yq3ad",
+        "columns": null
+      },
+      "id": "Field_13czzpc",
+      "key": "requiredWorkExperience",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "responsibilities",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1ysn17a",
+        "columns": null
+      },
+      "id": "Field_0gl6sve",
+      "key": "responsibilities",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "requirements",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_05t8g1w",
+        "columns": null
+      },
+      "id": "Field_0zgkvtm",
+      "key": "requirements",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "conditions",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0cpbjsx",
+        "columns": null
+      },
+      "id": "Field_129jdc4",
+      "key": "conditions",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "salaryFrom",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0rrla8u",
+        "columns": null
+      },
+      "id": "Field_1qaza0n",
+      "key": "salaryFrom",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "salaryTo",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1xv0ypv",
+        "columns": null
+      },
+      "id": "Field_12skd8i",
+      "key": "salaryTo",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_0z41bgm",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.15.1"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 10
+}

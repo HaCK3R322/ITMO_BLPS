@@ -15,7 +15,7 @@
       <bpmn:outgoing>Flow_1d5clkv</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:endEvent id="Event_0qrmwkh">
-      <bpmn:incoming>Flow_0g4l482</bpmn:incoming>
+      <bpmn:incoming>Flow_0rk3ymp</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:boundaryEvent id="Event_049uovk" attachedToRef="Activity_1sfiklz">
       <bpmn:outgoing>Flow_1po1e3x</bpmn:outgoing>
@@ -47,7 +47,7 @@
     <bpmn:sequenceFlow id="Flow_1xo1omb" name="authenticated" sourceRef="Gateway_0kwnr94" targetRef="Activity_1sfiklz">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{isAuthorized == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_0g4l482" sourceRef="Activity_1sfiklz" targetRef="Event_0qrmwkh" />
+    <bpmn:sequenceFlow id="Flow_0g4l482" sourceRef="Activity_1sfiklz" targetRef="Activity_1g1lgop" />
     <bpmn:subProcess id="Activity_1h5h0vx" name="authorization/registration">
       <bpmn:incoming>Flow_1d5clkv</bpmn:incoming>
       <bpmn:outgoing>Flow_0sjq8rh</bpmn:outgoing>
@@ -132,6 +132,11 @@
       <bpmn:errorEventDefinition id="ErrorEventDefinition_070k6ey" camunda:errorCodeVariable="RESUME_VALIDAITON_ERROR" camunda:errorMessageVariable="RESUME_VALIDAITON_ERROR" />
     </bpmn:boundaryEvent>
     <bpmn:sequenceFlow id="Flow_1fdkbvp" sourceRef="Event_0q47bqy" targetRef="Activity_0zpo2dk" />
+    <bpmn:userTask id="Activity_1g1lgop" name="Resume created!">
+      <bpmn:incoming>Flow_0g4l482</bpmn:incoming>
+      <bpmn:outgoing>Flow_0rk3ymp</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0rk3ymp" sourceRef="Activity_1g1lgop" targetRef="Event_0qrmwkh" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0yy6isc">
@@ -145,9 +150,6 @@
       <bpmndi:BPMNShape id="Gateway_0kwnr94_di" bpmnElement="Gateway_0kwnr94" isMarkerVisible="true">
         <dc:Bounds x="875" y="525" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0qrmwkh_di" bpmnElement="Event_0qrmwkh">
-        <dc:Bounds x="1402" y="532" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0g9zdx4_di" bpmnElement="Activity_0zpo2dk">
         <dc:Bounds x="850" y="160" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -156,6 +158,13 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1lszht6_di" bpmnElement="Event_1lszht6">
         <dc:Bounds x="742" y="82" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1of6bn9_di" bpmnElement="Activity_1g1lgop">
+        <dc:Bounds x="1310" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0qrmwkh_di" bpmnElement="Event_0qrmwkh">
+        <dc:Bounds x="1472" y="182" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1h5h0vx_di" bpmnElement="Activity_1h5h0vx" isExpanded="true">
         <dc:Bounds x="450" y="800" width="1280" height="390" />
@@ -306,7 +315,9 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0g4l482_di" bpmnElement="Flow_0g4l482">
         <di:waypoint x="1200" y="550" />
-        <di:waypoint x="1402" y="550" />
+        <di:waypoint x="1260" y="550" />
+        <di:waypoint x="1260" y="200" />
+        <di:waypoint x="1310" y="200" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1d5clkv_di" bpmnElement="Flow_1d5clkv">
         <di:waypoint x="900" y="575" />
@@ -334,6 +345,10 @@
         <di:waypoint x="590" y="380" />
         <di:waypoint x="900" y="380" />
         <di:waypoint x="900" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rk3ymp_di" bpmnElement="Flow_0rk3ymp">
+        <di:waypoint x="1410" y="200" />
+        <di:waypoint x="1472" y="200" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

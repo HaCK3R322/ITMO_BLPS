@@ -54,6 +54,7 @@ public class TryToCreateResumeFromDataDelegate implements JavaDelegate {
             validateRequest(request);
             Resume resume = resumeService.createFromRequest(request);
             resumeService.sendUserToCheck(resume);
+            execution.setVariable("createdResumeId", resume.getId());
         } catch (ValidationException ex) {
             execution.setVariable("RESUME_CREATION_ERROR", ex.getMessage());
             throw new BpmnError("RESUME_CREATION_ERROR", ex.getMessage());

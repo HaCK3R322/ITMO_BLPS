@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class WorkExperienceCreateRequest {
     @NotBlank(message = "Position must not be blank")
     private String position;

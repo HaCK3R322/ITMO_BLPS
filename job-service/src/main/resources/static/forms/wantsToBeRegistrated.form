@@ -1,0 +1,34 @@
+{
+  "components": [
+    {
+      "values": [
+        {
+          "label": "Yes",
+          "value": "true"
+        },
+        {
+          "label": "No",
+          "value": "false"
+        }
+      ],
+      "label": "Do you want to be registrated?",
+      "type": "select",
+      "layout": {
+        "row": "Row_0ulebej",
+        "columns": null
+      },
+      "id": "Field_11pxfkx",
+      "key": "wantsToBeRegistrated",
+      "defaultValue": "false"
+    }
+  ],
+  "type": "default",
+  "id": "Form_05szuzi",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.15.1"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 10
+}

@@ -1,0 +1,132 @@
+{
+  "components": [
+    {
+      "label": "Position",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1kuqryz",
+        "columns": null
+      },
+      "id": "Field_0mjxw3u",
+      "key": "position",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Organization Name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0736pgb",
+        "columns": null
+      },
+      "id": "Field_0q6yxcw",
+      "key": "organizationName",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Website",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_08prgvi",
+        "columns": null
+      },
+      "id": "Field_1js9xxn",
+      "key": "website",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "City",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0eyr564",
+        "columns": null
+      },
+      "id": "Field_1uvufni",
+      "key": "city",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Company Activity",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_05ah2g8",
+        "columns": null
+      },
+      "id": "Field_08sao0m",
+      "key": "companyActivity",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Responsibilities",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0au2z99",
+        "columns": null
+      },
+      "id": "Field_07vrlf8",
+      "key": "responsibilities",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Achievements",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_14vjpu6",
+        "columns": null
+      },
+      "id": "Field_0arddc6",
+      "key": "achievements",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Start date",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_041ynes",
+        "columns": null
+      },
+      "id": "Field_141jmw3",
+      "key": "startDate",
+      "validate": {
+        "required": true,
+        "pattern": "\\d{4}-\\d{2}-\\d{2}"
+      }
+    },
+    {
+      "label": "End date",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1cfle7s",
+        "columns": null
+      },
+      "id": "Field_1g8t1cx",
+      "key": "endDate",
+      "validate": {
+        "pattern": "\\d{4}-\\d{2}-\\d{2}",
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_0eflczg",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.15.1"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 10
+}
