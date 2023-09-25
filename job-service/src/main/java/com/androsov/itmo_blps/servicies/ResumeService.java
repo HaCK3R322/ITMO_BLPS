@@ -33,9 +33,10 @@ public class ResumeService {
     // ===============================================================================
 
     public Resume createFromRequest(ResumeCreateRequest resumeRequest) {
-        //TODO: проверить на права на создание: создавать должен только пользователь с ролью "соискатель"
-
         User user = userService.getCurrentUser();
+
+        if(!user.getRole().getName().equals("ROLE_WORKER"))
+            throw new AccessDeniedException("User with role " + user.getRole().getName() + " cant create resume");
 
         Resume resume = new Resume();
 

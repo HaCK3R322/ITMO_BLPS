@@ -1,0 +1,33 @@
+{
+  "components": [
+    {
+      "values": [
+        {
+          "label": "Create new resume",
+          "value": "createNewResume"
+        },
+        {
+          "label": "Search for vacancy",
+          "value": "searchForVacancy"
+        }
+      ],
+      "label": "Create new resume or search vacancy?",
+      "type": "select",
+      "layout": {
+        "row": "Row_0bii73a",
+        "columns": null
+      },
+      "id": "Field_1wdxrud",
+      "key": "authorizedUserWantsTo"
+    }
+  ],
+  "type": "default",
+  "id": "Form_1hg493t",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.15.1"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 10
+}

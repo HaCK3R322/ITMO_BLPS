@@ -13,6 +13,7 @@ import com.androsov.itmo_blps.repositories.*;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
@@ -32,7 +33,7 @@ public class AdministrationService {
 
     private UserService userService;
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public WorkerUserDeletingInfo deleteWorkerUserById(Long userId) throws AccessDeniedException {
         WorkerUserDeletingInfo workerUserDeletingInfo = new WorkerUserDeletingInfo();
 

@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 @Setter
 @AllArgsConstructor
 public class XmlFileUserDetailsService implements UserDetailsService {
-
     @Autowired
     UserService userService;
 

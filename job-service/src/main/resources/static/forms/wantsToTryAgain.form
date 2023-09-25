@@ -1,0 +1,34 @@
+{
+  "components": [
+    {
+      "values": [
+        {
+          "label": "Yes",
+          "value": "true"
+        },
+        {
+          "label": "No",
+          "value": "false"
+        }
+      ],
+      "label": "Some problem happened! Do you want to try again?",
+      "type": "select",
+      "layout": {
+        "row": "Row_1abx4ka",
+        "columns": null
+      },
+      "id": "Field_1gknjz0",
+      "key": "wantsToTryAgain",
+      "defaultValue": "true"
+    }
+  ],
+  "type": "default",
+  "id": "Form_14eqpwt",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.15.1"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 10
+}

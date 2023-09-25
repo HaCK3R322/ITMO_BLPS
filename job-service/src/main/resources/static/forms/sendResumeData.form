@@ -1,0 +1,178 @@
+{
+  "components": [
+    {
+      "label": "Name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0j2ideq",
+        "columns": null
+      },
+      "id": "Field_18rh2g1",
+      "key": "name",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Surname",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_05nvtnz",
+        "columns": null
+      },
+      "id": "Field_1w0649z",
+      "key": "surname",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Patronymic",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0sy8t75",
+        "columns": null
+      },
+      "id": "Field_1mp7gy9",
+      "key": "patronymic",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Date of birth",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0s87ig5",
+        "columns": null
+      },
+      "id": "Field_0l238xw",
+      "key": "dateOfBirth",
+      "validate": {
+        "pattern": "\\d{4}-\\d{2}-\\d{2}",
+        "required": true
+      }
+    },
+    {
+      "label": "City",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0y5mvly",
+        "columns": null
+      },
+      "id": "Field_1clc29w",
+      "key": "city",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Metro station",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0m47eo1",
+        "columns": null
+      },
+      "id": "Field_1nw7v4i",
+      "key": "metroStation",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Phone number",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_070vpx3",
+        "columns": null
+      },
+      "id": "Field_1n09fdz",
+      "key": "phoneNumber",
+      "description": "FORMAT: 1234567890",
+      "validate": {
+        "pattern": "\\d{10}",
+        "required": true
+      }
+    },
+    {
+      "label": "email",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0gochc3",
+        "columns": null
+      },
+      "id": "Field_10gt8zj",
+      "key": "email",
+      "description": "Example: lol123@mail.ru",
+      "validate": {
+        "required": true,
+        "validationType": "email"
+      }
+    },
+    {
+      "label": "Desired Postition",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0nvo81l",
+        "columns": null
+      },
+      "id": "Field_1eho8ol",
+      "key": "desiredPosition",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Salary",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_05amww4",
+        "columns": null
+      },
+      "id": "Field_0a6t2si",
+      "key": "salary",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Employement",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0i4lv9b",
+        "columns": null
+      },
+      "id": "Field_1y4l475",
+      "key": "employment",
+      "description": "Full/Part-time/Shift/Rotational/Partial Remote",
+      "validate": {
+        "pattern": "^(Full|Part-time|Shift|Rotational|Partial Remote)$",
+        "required": true
+      }
+    },
+    {
+      "label": "Skills",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1r9ki3m",
+        "columns": null
+      },
+      "id": "Field_08xfka8",
+      "key": "skills",
+      "description": "Separated by \";\"",
+      "validate": {
+        "pattern": "^(\\w*;)*$",
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_05yq8gy",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.15.1"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 10
+}

@@ -35,6 +35,10 @@ spring:
   camunda:
     bpm:
       default-serialization-format: application/json
+      webapp:
+        auth:
+          cache:
+            .ttl-enabled: false
 # some custom things
 user:
   xml:

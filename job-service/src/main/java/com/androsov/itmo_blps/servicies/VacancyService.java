@@ -7,6 +7,7 @@ import com.androsov.itmo_blps.model.entities.Vacancy;
 import com.androsov.itmo_blps.repositories.VacancyRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -32,6 +33,9 @@ public class VacancyService {
         if (vacancyRepository.existsByUserIdAndName(user.getId(), request.getName()))
             throw new IllegalArgumentException("Vacancy with user '" + user.getUsername() +
                     "' and name '" + request.getName() + "' already exists.");
+
+        if(!user.getRole().getName().equals("ROLE_HR"))
+            throw new AccessDeniedException("User with role " + user.getRole().getName() + " cant create resume");
 
         Vacancy vacancy = new Vacancy();
 

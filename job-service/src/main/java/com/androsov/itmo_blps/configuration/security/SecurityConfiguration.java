@@ -1,7 +1,9 @@
 package com.androsov.itmo_blps.configuration.security;
 
 import lombok.RequiredArgsConstructor;
+import org.camunda.bpm.webapp.impl.security.auth.ContainerBasedAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -29,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -56,9 +59,14 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers("/register", "/login").permitAll()
                 .antMatchers("/vacancy/search").permitAll()
-                .antMatchers("/camunda/**").permitAll()
                 .antMatchers("/**").authenticated()
                 .anyRequest().authenticated()
+
+                .and()
+                .logout()
+                .deleteCookies("JSESSIONID", "remember-me")
+                .clearAuthentication(true)
+                .invalidateHttpSession(true)
 
                 .and()
                 .csrf().disable();

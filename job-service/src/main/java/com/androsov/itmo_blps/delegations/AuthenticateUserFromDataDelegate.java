@@ -2,6 +2,7 @@ package com.androsov.itmo_blps.delegations;
 
 
 import ch.qos.logback.core.boolex.Matcher;
+import com.androsov.itmo_blps.configuration.security.SecurityConfiguration;
 import com.androsov.itmo_blps.configuration.security.XmlFileAuthenticationProvider;
 import com.androsov.itmo_blps.servicies.UserService;
 import com.androsov.itmo_blps.servicies.XmlFileUserDetailsService;
